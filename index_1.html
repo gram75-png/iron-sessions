@@ -1,0 +1,2308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Iron Sessions">
+<meta name="theme-color" content="#0a0a0a">
+<title>Iron Sessions</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0a0a0a;
+  --iron: #1a1a1a;
+  --steel: #2a2a2a;
+  --chalk: #f0ece4;
+  --rust: #c0402a;
+  --gold: #d4a843;
+  --purple: #9a6fe8;
+  --green: #4aad78;
+  --green-dark: #2e7d52;
+  --blue: #3a7bd5;
+  --blue-light: #6a9ff5;
+  --amber: #d46a20;
+  --orange: #d46a20;
+  --teal: #2a9d8f;
+  --flexred: #e06050;
+  --crimson: #d1495c;
+  --gray: #888;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-serif; padding-bottom:80px; }
+
+/* ============ THEMES ============ */
+.theme-core { --accent: var(--purple); }
+.theme-push { --accent: var(--blue-light); }
+.theme-legs { --accent: var(--green); }
+.theme-pull { --accent: var(--crimson); }
+
+/* ============ VIEW SWITCHING ============ */
+.view { display:none; }
+.view.active { display:block; }
+#home { display:none; }
+#home.active { display:block; }
+
+/* ============ STICKY BAR ============ */
+.sticky-bar { position:sticky; top:0; z-index:100; background:#0d0d0d; border-bottom:1px solid #222; padding:8px 16px; display:none; }
+.sticky-bar.active { display:block; }
+.sticky-inner { max-width:680px; margin:0 auto; display:flex; align-items:center; gap:10px; }
+.menu-btn { font-family:'Bebas Neue',sans-serif; font-size:11px; letter-spacing:2px; background:none; border:1px solid #333; color:#888; padding:4px 10px; border-radius:2px; cursor:pointer; white-space:nowrap; }
+.menu-btn:hover { border-color:var(--gold); color:var(--gold); }
+.prog-label { font-family:'Bebas Neue',sans-serif; font-size:12px; letter-spacing:2px; color:var(--gray); white-space:nowrap; }
+.prog-track { flex:1; height:6px; background:#222; border-radius:3px; overflow:hidden; }
+.prog-fill { height:100%; border-radius:3px; transition:width 0.3s; width:0%; }
+.prog-count { font-family:'Bebas Neue',sans-serif; font-size:13px; min-width:52px; text-align:right; }
+.reset-btn { font-family:'Bebas Neue',sans-serif; font-size:11px; letter-spacing:2px; background:none; border:1px solid #333; color:#555; padding:4px 10px; border-radius:2px; cursor:pointer; }
+.reset-btn:hover { border-color:var(--rust); color:var(--rust); }
+
+/* ============ HOME SCREEN ============ */
+.home-header { background:var(--iron); border-bottom:3px solid var(--gold); padding:44px 24px 32px; text-align:center; position:relative; overflow:hidden; }
+.home-header::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(-45deg,transparent,transparent 12px,rgba(212,168,67,0.03) 12px,rgba(212,168,67,0.03) 24px); }
+.home-header h1 { font-family:'Bebas Neue',sans-serif; font-size:clamp(44px,11vw,76px); letter-spacing:5px; position:relative; }
+.home-header h1 span { color:var(--gold); }
+.home-header p { margin-top:8px; font-size:13px; letter-spacing:3px; text-transform:uppercase; color:var(--gray); position:relative; }
+.menu-wrap { max-width:680px; margin:0 auto; padding:24px 16px 0; }
+.menu-label { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--gray); margin-bottom:12px; }
+.menu-card { width:100%; text-align:left; display:grid; grid-template-columns:1fr auto; gap:6px 16px; align-items:center; background:var(--iron); border:1px solid #2c2c2c; border-radius:2px; padding:20px; margin-bottom:12px; cursor:pointer; font-family:inherit; color:var(--chalk); transition:border-color .15s, transform .1s; }
+.menu-card:active { transform:scale(0.99); }
+.menu-card.m-core { border-left:4px solid var(--purple); background:#0f0d18; }
+.menu-card.m-core:hover { border-color:var(--purple); }
+.menu-card.m-push { border-left:4px solid var(--blue-light); background:#0d1020; }
+.menu-card.m-push:hover { border-color:var(--blue-light); }
+.menu-card.m-legs { border-left:4px solid var(--green); background:#0a120e; }
+.menu-card.m-legs:hover { border-color:var(--green); }
+.menu-card.m-pull { border-left:4px solid var(--crimson); background:#1a0d10; }
+.menu-card.m-pull:hover { border-color:var(--crimson); }
+.menu-title { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:2px; line-height:1; }
+.m-core .menu-title span { color:var(--purple); }
+.m-push .menu-title span { color:var(--blue-light); }
+.m-legs .menu-title span { color:var(--green); }
+.m-pull .menu-title span { color:var(--crimson); }
+.menu-sub { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--gray); margin-top:6px; }
+.menu-meta { text-align:right; }
+.menu-meta .mm-big { font-family:'Bebas Neue',sans-serif; font-size:24px; display:block; }
+.m-core .mm-big { color:var(--purple); }
+.m-push .mm-big { color:var(--blue-light); }
+.m-legs .mm-big { color:var(--green); }
+.m-pull .mm-big { color:var(--crimson); }
+.menu-meta .mm-small { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#555; }
+.home-note { max-width:680px; margin:20px auto 0; padding:0 16px; }
+.cat-head { display:flex; align-items:center; gap:12px; margin:6px 0 14px; }
+.cat-head .cat-name { font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:4px; white-space:nowrap; }
+.cat-head.cat-kb .cat-name { color:var(--gold); }
+.cat-head.cat-db .cat-name { color:var(--blue-light); }
+.cat-head::after { content:''; flex:1; height:1px; background:var(--steel); }
+.cat-head .cat-count { font-family:'Bebas Neue',sans-serif; font-size:11px; letter-spacing:2px; color:#444; }
+.equip-tag { display:inline-block; font-family:'Bebas Neue',sans-serif; font-size:10px; letter-spacing:2px; padding:2px 8px; border-radius:2px; margin-bottom:6px; }
+.equip-tag.t-kb { background:#2a2100; color:var(--gold); }
+.equip-tag.t-db { background:#0d1a2a; color:var(--blue-light); }
+.home-note-inner { background:#111; border:1px solid #222; border-left:3px solid var(--gold); border-radius:2px; padding:14px 16px; font-size:11px; color:#777; line-height:1.8; }
+.home-note-inner strong { color:var(--gold); font-size:10px; letter-spacing:2px; text-transform:uppercase; display:block; margin-bottom:4px; }
+
+/* ============ SHARED WORKOUT LAYOUT ============ */
+.header { background:var(--iron); border-bottom:3px solid var(--accent); padding:36px 24px 28px; text-align:center; position:relative; overflow:hidden; }
+.header h1 { font-family:'Bebas Neue',sans-serif; font-size:clamp(40px,10vw,70px); letter-spacing:4px; position:relative; }
+.header h1 span { color:var(--accent); }
+.header p { margin-top:8px; font-size:13px; letter-spacing:3px; text-transform:uppercase; color:var(--gray); position:relative; }
+
+.stats { display:flex; background:var(--steel); border-bottom:1px solid #333; }
+.stat { flex:1; text-align:center; padding:16px 8px; border-right:1px solid #333; }
+.stat:last-child { border-right:none; }
+.stat-val { font-family:'Bebas Neue',sans-serif; font-size:26px; color:var(--accent); display:block; }
+.stat-lbl { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--gray); }
+
+.container { max-width:680px; margin:0 auto; padding:0 16px; }
+
+.phase-label { display:flex; align-items:center; gap:10px; margin:28px 0 10px; }
+.phase-label .title { font-family:'Bebas Neue',sans-serif; font-size:11px; letter-spacing:4px; text-transform:uppercase; white-space:nowrap; }
+.phase-label .budget { font-family:'Bebas Neue',sans-serif; font-size:11px; letter-spacing:2px; color:#444; }
+.phase-label::after { content:''; flex:1; height:1px; background:var(--steel); }
+.ph-warm .title { color:var(--gold); }
+.ph-power .title { color:var(--rust); }
+.ph-anti .title { color:var(--purple); }
+.ph-flex .title { color:var(--flexred); }
+.ph-post .title { color:var(--green); }
+.ph-chest .title { color:var(--blue-light); }
+.ph-shoulder .title { color:var(--orange); }
+.ph-arms .title { color:var(--teal); }
+.ph-finisher .title { color:var(--rust); }
+.ph-kb1 .title { color:var(--green); }
+.ph-kb2 .title { color:var(--amber); }
+.ph-machine1 .title { color:var(--blue-light); }
+.ph-machine2 .title { color:var(--purple); }
+.ph-vert .title { color:var(--accent); }
+
+/* CARDS - theme defaults */
+.card { background:var(--iron); border:1px solid #2c2c2c; border-radius:2px; padding:18px 20px; margin-bottom:10px; display:grid; grid-template-columns:1fr auto; gap:8px 16px; align-items:start; }
+.theme-core .card { border-left:3px solid var(--rust); }
+.theme-push .card { border-left:3px solid var(--blue-light); }
+.theme-legs .card { border-left:3px solid var(--green); }
+/* variants (win over theme defaults) */
+.view .card.warm     { border-left-color:var(--gold); background:#1a1500; }
+.view .card.anti     { border-left-color:var(--purple); background:#0f0d18; }
+.view .card.flex     { border-left-color:var(--flexred); background:#180d0b; }
+.view .card.post     { border-left-color:var(--green); background:#0a120e; }
+.view .card.shoulder { border-left-color:var(--orange); background:#150f08; }
+.view .card.arms     { border-left-color:var(--teal); background:#081210; }
+.view .card.finisher { border-left-color:var(--rust); background:#120808; }
+.view .card.kb-hinge { border-left-color:var(--amber); background:#150f08; }
+.view .card.machine  { border-left-color:var(--blue-light); background:#0d1020; }
+.view .card.machine-finish { border-left-color:var(--purple); background:#0f0d18; }
+
+.card-num  { font-family:'Bebas Neue',sans-serif; font-size:11px; letter-spacing:2px; color:var(--gray); margin-bottom:2px; }
+.card-name { font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:1px; line-height:1.1; }
+.card-detail { font-size:12px; color:var(--gray); margin-top:5px; line-height:1.6; }
+.card-detail strong { color:#aaa; }
+.card-tip { font-size:11px; color:#666; margin-top:6px; font-style:italic; }
+.alt-box { margin-top:10px; background:#111; border:1px solid #2a2a2a; border-left:2px solid var(--gold); border-radius:2px; padding:8px 12px; font-size:11px; color:#777; line-height:1.7; }
+.alt-box strong { color:var(--gold); font-size:10px; letter-spacing:2px; text-transform:uppercase; display:block; margin-bottom:3px; }
+.machine-tag { display:inline-block; font-size:9px; letter-spacing:2px; text-transform:uppercase; padding:2px 7px; border-radius:2px; margin-bottom:6px; background:#1a2a44; color:var(--blue-light); font-weight:500; }
+
+/* BADGES */
+.badge { font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:1px; padding:4px 10px; border-radius:2px; white-space:nowrap; text-align:right; display:block; margin-bottom:4px; }
+.badge:last-child { margin-bottom:0; }
+.b-red    { background:var(--rust); color:white; }
+.b-rust   { background:var(--rust); color:white; }
+.b-gold   { background:var(--steel); color:var(--gold); }
+.b-purple { background:#1a1230; color:var(--purple); }
+.b-amber  { background:#2a1500; color:var(--amber); }
+.b-orange { background:#2a1500; color:var(--orange); }
+.b-teal   { background:#081a18; color:var(--teal); }
+.b-crimson { background:#2a0f14; color:var(--crimson); }
+.theme-core .b-green { background:#0a1a10; color:var(--green); }
+.theme-legs .b-green { background:var(--green-dark); color:#7adc9a; }
+.theme-pull .b-green { background:#0a1a10; color:var(--green); }
+.theme-push .b-blue  { background:var(--blue); color:white; }
+.theme-legs .b-blue  { background:#1a2a44; color:var(--blue-light); }
+
+/* MUSCLE MAP (push) */
+.muscle-map { max-width:680px; margin:28px auto 0; padding:0 16px; }
+.muscle-map-label { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--gray); margin-bottom:10px; }
+.muscle-pillars { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+.pillar { background:var(--iron); border:1px solid #2a2a2a; border-radius:2px; padding:12px 14px; text-align:center; }
+.pillar-icon { font-family:'Bebas Neue',sans-serif; font-size:22px; display:block; margin-bottom:4px; }
+.pillar-name { font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:2px; display:block; margin-bottom:4px; }
+.pillar-desc { font-size:10px; color:var(--gray); line-height:1.5; }
+.p-chest { border-top:2px solid var(--blue-light); }
+.p-chest .pillar-icon, .p-chest .pillar-name { color:var(--blue-light); }
+.p-shoulder { border-top:2px solid var(--orange); }
+.p-shoulder .pillar-icon, .p-shoulder .pillar-name { color:var(--orange); }
+.p-arms { border-top:2px solid var(--teal); }
+.p-arms .pillar-icon, .p-arms .pillar-name { color:var(--teal); }
+
+/* ROOM DIVIDER (legs) */
+.room-divider { max-width:680px; margin:32px auto 0; padding:0 16px; }
+.room-banner { border-radius:3px; padding:14px 20px; display:flex; align-items:center; gap:14px; }
+.room-banner.kb-room { background:#0d1a0f; border:1px solid #1a3a22; border-left:4px solid var(--green); }
+.room-banner.machine-room { background:#0d1020; border:1px solid #1a2040; border-left:4px solid var(--blue-light); }
+.room-icon { font-family:'Bebas Neue',sans-serif; font-size:28px; }
+.room-banner.kb-room .room-icon { color:var(--green); }
+.room-banner.machine-room .room-icon { color:var(--blue-light); }
+.room-title { font-family:'Bebas Neue',sans-serif; font-size:16px; letter-spacing:3px; display:block; }
+.room-banner.kb-room .room-title { color:var(--green); }
+.room-banner.machine-room .room-title { color:var(--blue-light); }
+.room-sub { font-size:11px; color:var(--gray); letter-spacing:1px; margin-top:2px; display:block; }
+
+/* SET TRACKER */
+.set-tracker { margin-top:14px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.set-lbl { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#555; }
+.set-box { width:38px; height:38px; border-radius:3px; border:2px solid #333; background:#111; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; }
+.set-box .num { font-family:'Bebas Neue',sans-serif; font-size:15px; color:#444; }
+.set-box .chk { display:none; font-size:16px; color:white; }
+.theme-core .set-box.done { background:var(--rust); border-color:var(--rust); }
+.theme-push .set-box.done { background:var(--blue); border-color:var(--blue); }
+.theme-legs .set-box.done { background:var(--green); border-color:var(--green); }
+.theme-pull .set-box.done { background:var(--crimson); border-color:var(--crimson); }
+.view .card.anti .set-box.done { background:var(--purple); border-color:var(--purple); }
+.view .card.flex .set-box.done { background:var(--flexred); border-color:var(--flexred); }
+.view .card.post .set-box.done { background:var(--green); border-color:var(--green); }
+.view .card.shoulder .set-box.done { background:var(--orange); border-color:var(--orange); }
+.view .card.arms .set-box.done { background:var(--teal); border-color:var(--teal); }
+.view .card.finisher .set-box.done { background:var(--rust); border-color:var(--rust); }
+.view .card.kb-hinge .set-box.done { background:var(--amber); border-color:var(--amber); }
+.view .card.machine .set-box.done { background:var(--blue); border-color:var(--blue); }
+.view .card.machine-finish .set-box.done { background:var(--purple); border-color:var(--purple); }
+.set-box.done .num { display:none; }
+.set-box.done .chk { display:block; }
+
+/* REST TIMER */
+.rest-btn { margin-top:12px; display:flex; width:100%; max-width:260px; border:2px solid #333; border-radius:4px; overflow:hidden; cursor:pointer; background:none; padding:0; font-family:inherit; }
+.rest-btn-label { font-family:'Bebas Neue',sans-serif; font-size:14px; letter-spacing:2px; padding:10px 14px; background:#1a1a1a; color:#888; flex:1; text-align:left; }
+.rest-btn-count { font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:2px; padding:6px 14px; background:#222; color:#555; min-width:68px; text-align:center; border-left:1px solid #333; }
+.rest-btn.running { border-color:var(--accent); }
+.rest-btn.running .rest-btn-label { color:var(--chalk); background:#101216; }
+.rest-btn.running .rest-btn-count { color:var(--accent); background:#101216; border-left-color:var(--accent); }
+.rest-btn.warning { border-color:var(--gold); }
+.rest-btn.warning .rest-btn-label { color:var(--chalk); background:#1a1300; }
+.rest-btn.warning .rest-btn-count { color:var(--gold); background:#1a1300; border-left-color:var(--gold); }
+.rest-btn.done { border-color:var(--accent); }
+.rest-btn.done .rest-btn-label { color:var(--accent); background:#101216; }
+.rest-btn.done .rest-btn-count { color:var(--accent); background:#101216; border-left-color:var(--accent); }
+
+.notes { max-width:680px; margin:24px auto 0; padding:20px; background:#111; border:1px solid #222; border-left:3px solid var(--accent); border-radius:2px; }
+.notes h3 { font-family:'Bebas Neue',sans-serif; letter-spacing:2px; color:var(--accent); font-size:16px; margin-bottom:10px; }
+.notes ul { list-style:none; font-size:12px; color:var(--gray); line-height:2.1; }
+.notes ul li::before { content:'- '; color:var(--rust); }
+
+@media(max-width:480px) { .stats { flex-wrap:wrap; } .stat { min-width:50%; border-bottom:1px solid #333; } .muscle-pillars { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<div class="sticky-bar" id="stickyBar">
+  <div class="sticky-inner">
+    <button class="menu-btn" onclick="goHome()">&larr; MENU</button>
+    <div class="prog-track"><div class="prog-fill" id="pFill"></div></div>
+    <span class="prog-count" id="pCount">0 / 0</span>
+    <button class="reset-btn" onclick="resetActive()">RESET</button>
+  </div>
+</div>
+
+<!-- ================= HOME ================= -->
+<div id="home" class="active">
+  <div class="home-header">
+    <h1>IRON <span>SESSIONS</span></h1>
+    <p>Pick Your Session - 60 Min Each</p>
+  </div>
+  <div class="menu-wrap">
+
+    <div class="cat-head cat-kb"><span class="cat-name">KETTLEBELL SERIES</span><span class="cat-count">Home gym</span></div>
+    <button class="menu-card m-core" onclick="showView('view-core')">
+      <div>
+        <span class="equip-tag t-kb">KB</span>
+        <div class="menu-title">TRUNK &amp; <span>CORE</span></div>
+        <div class="menu-sub">Anti-Rotation - Flexion - Posterior - KB Power</div>
+      </div>
+      <div class="menu-meta"><span class="mm-big">7</span><span class="mm-small">Exercises</span></div>
+    </button>
+    <button class="menu-card m-push" onclick="showView('view-push')">
+      <div>
+        <span class="equip-tag t-kb">KB</span>
+        <div class="menu-title">PUSH &amp; <span>PRESS</span></div>
+        <div class="menu-sub">Chest - Shoulders - Arms - KB Focus</div>
+      </div>
+      <div class="menu-meta"><span class="mm-big">8</span><span class="mm-small">Exercises</span></div>
+    </button>
+    <button class="menu-card m-legs" onclick="showView('view-legs')">
+      <div>
+        <span class="equip-tag t-kb">KB</span>
+        <div class="menu-title">LEGS &amp; <span>POWER</span></div>
+        <div class="menu-sub">KB Room Then Machine Room</div>
+      </div>
+      <div class="menu-meta"><span class="mm-big">8</span><span class="mm-small">Exercises</span></div>
+    </button>
+    <button class="menu-card m-pull" onclick="showView('view-pull')">
+      <div>
+        <span class="equip-tag t-kb">KB</span>
+        <div class="menu-title">PULL &amp; <span>BACK</span></div>
+        <div class="menu-sub">Vertical Pull - Row - Rear Delt</div>
+      </div>
+      <div class="menu-meta"><span class="mm-big">8</span><span class="mm-small">Exercises</span></div>
+    </button>
+
+    <div class="cat-head cat-db" style="margin-top:28px;"><span class="cat-name">DUMBBELL SERIES</span><span class="cat-count">No-kettlebell gym</span></div>
+    <button class="menu-card m-core" onclick="showView('view-core-db')">
+      <div>
+        <span class="equip-tag t-db">DB</span>
+        <div class="menu-title">TRUNK &amp; <span>CORE</span></div>
+        <div class="menu-sub">Anti-Rotation - Flexion - Posterior - DB Power</div>
+      </div>
+      <div class="menu-meta"><span class="mm-big">7</span><span class="mm-small">Exercises</span></div>
+    </button>
+    <button class="menu-card m-push" onclick="showView('view-push-db')">
+      <div>
+        <span class="equip-tag t-db">DB</span>
+        <div class="menu-title">PUSH &amp; <span>PRESS</span></div>
+        <div class="menu-sub">Dumbbell &amp; Machine - No Kettlebells</div>
+      </div>
+      <div class="menu-meta"><span class="mm-big">8</span><span class="mm-small">Exercises</span></div>
+    </button>
+    <button class="menu-card m-legs" onclick="showView('view-legs-db')">
+      <div>
+        <span class="equip-tag t-db">DB</span>
+        <div class="menu-title">LEGS &amp; <span>POWER</span></div>
+        <div class="menu-sub">Dumbbell Compounds Then Machine Room</div>
+      </div>
+      <div class="menu-meta"><span class="mm-big">8</span><span class="mm-small">Exercises</span></div>
+    </button>
+    <button class="menu-card m-pull" onclick="showView('view-pull-db')">
+      <div>
+        <span class="equip-tag t-db">DB</span>
+        <div class="menu-title">PULL &amp; <span>BACK</span></div>
+        <div class="menu-sub">Vertical Pull - Row - Rear Delt</div>
+      </div>
+      <div class="menu-meta"><span class="mm-big">8</span><span class="mm-small">Exercises</span></div>
+    </button>
+
+    <div class="home-note">
+      <div class="home-note-inner">
+        <strong>Runs on its own</strong>
+        This app lives in your browser - switching apps or locking the screen will not break a running rest timer. It uses real clock time, so the countdown stays accurate when you come back. Progress resets if you fully close the page.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= TRUNK & CORE ================= -->
+<div id="view-core" class="view theme-core">
+
+<div class="header">
+  <h1>TRUNK &amp; <span>CORE</span></h1>
+  <p>Anti-Rotation - Flexion - Posterior Chain - KB Power - 60 Min</p>
+</div>
+
+<div class="stats">
+  <div class="stat"><span class="stat-val">60</span><span class="stat-lbl">Minutes</span></div>
+  <div class="stat"><span class="stat-val">7</span><span class="stat-lbl">Exercises</span></div>
+  <div class="stat"><span class="stat-val">3</span><span class="stat-lbl">Vectors</span></div>
+  <div class="stat"><span class="stat-val">90s</span><span class="stat-lbl">Rest</span></div>
+</div>
+
+<div class="container">
+
+  <div class="phase-label ph-warm"><span class="title">WARM-UP</span><span class="budget">5 min</span></div>
+  <div class="card warm">
+    <div>
+      <div class="card-num">WARM-UP</div>
+      <div class="card-name">Assault or Rower</div>
+      <div class="card-detail"><strong>5 minutes continuous</strong><br>Easy first 2 min, build to moderate, push to 80% for the last 60 sec.<br><strong>Bike target:</strong> ~45-55 calories over the 5 min.<br><strong>Rower option:</strong> target 950-1,100m over the 5 min (~2:15-2:40 / 500m), three pacing phases.</div>
+      <div class="card-tip">Take 30 sec off the bike before your first swing</div>
+    </div>
+    <div><span class="badge b-gold">5 min</span></div>
+  </div>
+
+  <div class="phase-label ph-power"><span class="title">POWER BLOCK</span><span class="budget">~14 min</span></div>
+
+  <div class="card">
+    <div>
+      <div class="card-num">01</div>
+      <div class="card-name">Two-Hand KB Swing</div>
+      <div class="card-detail"><strong>4 sets x 10 reps</strong><br>Hip hinge, not a squat - the power comes from snapping the hips, arms just hang on. Hike the bell back aggressively between your legs into your upper inner thighs (like a football snap), then snap the hips forward hard and stand tall - glutes and hamstrings fire, knees straighten. The bell floats to chest height on momentum alone - do not lift it with your arms. At the top, brace into a hard standing plank: glutes clenched, abs braced, ribs down, resist the bell pulling you forward. <strong>Weight: single bell, 32-40 kg (70-88 lbs).</strong></div>
+      <div class="card-tip">Cue: hips explode, float, hinge, repeat. If your knees bend a lot and the bell dips low, you are squatting it - push the hips back, not down. Heels and mid-foot stay planted throughout</div>
+      <div class="alt-box"><strong>Lower back flare-up?</strong>Skip entirely until pain-free, then return at 12-16 kg (26-35 lbs) - about a third of working weight - before building back up over 1-2 weeks</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-red">4 x 10</span><span class="badge b-gold">32-40 kg (70-88 lbs)</span></div>
+  </div>
+
+  <div class="card">
+    <div>
+      <div class="card-num">02</div>
+      <div class="card-name">Assisted Pull-Up Machine</div>
+      <div class="card-detail"><strong>4 sets x 6-8 reps</strong><br>Kneel or stand on the assisted pull-up machine platform, hands wide overhand. The counterweight supports part of your bodyweight - full dead hang to chin over the bar every rep. <strong>New baseline: 30-35 lbs assist (down from 50 - 6 months at 50 was a habit ceiling, not a strength ceiling).</strong> Order sets lightest assist first while fresh, heaviest assist last: e.g. 30 - 30 - 40 - 40.</div>
+      <div class="card-tip">Retest your real ceiling every 2-3 weeks, fresh - not on a fatigued last set. Lower the assist weight as you get stronger (less help = closer to unassisted)</div>
+      <div class="alt-box"><strong>No assist machine? Alternatives:</strong>Band-assisted pull-up on the bar - or - Lat Pulldown machine 4 x 8</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-red">4 x 6-8</span><span class="badge b-gold">30-35 lb assist</span></div>
+  </div>
+
+  <div class="phase-label ph-anti"><span class="title">ANTI-ROTATION</span><span class="budget">~13 min</span></div>
+
+  <div class="card anti">
+    <div>
+      <div class="card-num">03</div>
+      <div class="card-name">KB Pull-Through</div>
+      <div class="card-detail"><strong>3 sets x 10 each side</strong><br>High plank, reach under and drag the bell across with the opposite hand. Hips want to rotate - do not let them. Slow drag, slow return. <strong>Weight: single bell, 16-20 kg (35-44 lbs) total.</strong></div>
+      <div class="card-tip">Feet wider than shoulder-width gives a more stable base</div>
+      <div class="alt-box"><strong>Lower back flare-up?</strong>Hold off on this one longest - it's a common trigger. Once pain-free, return at 8-10 kg (18-22 lbs), later than your other hinge work. Sub extra Bird Dog sets in the meantime</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-purple">3 x 10/side</span><span class="badge b-purple">16-20 kg (35-44 lbs)</span></div>
+  </div>
+
+  <div class="card anti">
+    <div>
+      <div class="card-num">04</div>
+      <div class="card-name">Pallof Press</div>
+      <div class="card-detail"><strong>3 sets x 10 reps each side</strong><br>Low cable pulley at chest height, or a band anchored to a rack. Stand side-on, hold with both hands at chest, press straight out, hold 2 sec, return. Obliques resist the rotation entirely. <strong>Target: 25-40 lbs on a low cable pulley - if using a band, go medium-to-heavy tension.</strong></div>
+      <div class="card-tip">Further from anchor = harder. Own the position before adding distance.</div>
+      <div class="alt-box"><strong>No anchor? Alternative:</strong>Half-kneeling KB halo, slow, 3 x 8 each direction</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-purple">3 x 10/side</span><span class="badge b-purple">25-40 lb</span></div>
+  </div>
+
+  <div class="phase-label ph-flex"><span class="title">FLEXION BLOCK</span><span class="budget">~13 min</span></div>
+
+  <div class="card flex">
+    <div>
+      <div class="card-num">05</div>
+      <div class="card-name">Lying Leg Raise to Candlestick</div>
+      <div class="card-detail"><strong>4 sets x 10-12 reps</strong><br>Lie flat on your back, hands by your sides or tucked under your lower back. Raise straight legs to vertical, then at the top drive the pelvis off the floor so your legs point straight up at the ceiling (the candlestick). Slow, controlled lower - do not let the lower back arch off the floor on the way down. <strong>Target: bodyweight - no added load here, progress by owning full control at 4x12 before adding reps.</strong></div>
+      <div class="card-tip">The pelvis lift at the very top is the whole point - that final curl of the hips off the floor is where the lower abs actually fire</div>
+      <div class="alt-box"><strong>Lower back flare-up?</strong>Skip the pelvis lift and any loaded flexion entirely until pain-free. A gentle Dead Bug (opposite arm/leg reach, low back pressed flat) is a safer core option in the meantime</div>
+      <div class="alt-box"><strong>Too hard?</strong>Drop the hip lift and do plain lying leg raises with the back glued to the floor - add the pelvis lift back in once those feel easy, or bend the knees to shorten the lever</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-red">4 x 10-12</span><span class="badge b-gold">BW</span></div>
+  </div>
+
+  <div class="phase-label ph-post"><span class="title">POSTERIOR CHAIN</span><span class="budget">~15 min</span></div>
+
+  <div class="card post">
+    <div>
+      <div class="card-num">06</div>
+      <div class="card-name">KB Romanian Deadlift</div>
+      <div class="card-detail"><strong>3 sets x 10 reps</strong><br>Two bells or one heavy bell. <strong>Weight shown (32-40 kg (70-88 lbs)) is TOTAL load - use 16-20 kg (35-44 lbs) per bell if using two.</strong> Hinge at hip, feel the hamstring load, drive hips forward to stand.</div>
+      <div class="card-tip">If your lower back rounds you have gone too heavy or too deep</div>
+      <div class="alt-box"><strong>Lower back flare-up?</strong>Return at 12-16 kg (26-35 lbs) total - well below working weight - before building back up over 1-2 weeks</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-green">3 x 10</span><span class="badge b-green">32-40 kg (70-88 lbs)</span></div>
+  </div>
+
+  <div class="card post">
+    <div>
+      <div class="card-num">07</div>
+      <div class="card-name">Bird Dog</div>
+      <div class="card-detail"><strong>3 sets x 10 each side</strong><br>On all fours, extend opposite arm and leg. Hold 3 sec at full extension before returning. Hits the erectors and deep stabilisers hard when done right. <strong>Target: bodyweight - add a light-to-medium band (see below) once controlled bodyweight reps feel easy.</strong></div>
+      <div class="card-tip">Think reach long not lift high - length activates the erectors</div>
+      <div class="alt-box"><strong>Want more load?</strong>Loop a thin resistance band around the extended foot and the opposite hand - the band pulls back as you reach, adding resistance right at full extension where it counts</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-green">3 x 10/side</span><span class="badge b-green">BW</span></div>
+  </div>
+
+  <div class="notes">
+    <h3>SESSION NOTES</h3>
+    <ul>
+      <li>Pull-up: working assist is now 30-35 lbs (habit ceiling broken after 6 months stuck at 50) - order sets lightest-assist-first while fresh. Retest true ceiling every 2-3 weeks, fresh, not on a fatigued last set</li>
+      <li>KB swing cue - treat the top of every swing as a standing plank</li>
+      <li>Pallof press: pause 2 full seconds at extension - that is where the work happens</li>
+      <li>Lying leg raise to candlestick: the pelvis lift at the top is the key - keep the lower back flat on the descent, no arching</li>
+      <li>RDL: weight is total load - 16-20 kg (35-44 lbs) per bell if using two kettlebells</li>
+      <li>Bird dog is deceptively hard at the end - do not skip it</li>
+      <li>Frequency: 2-3x per week with 48h recovery between sessions</li>
+    </ul>
+  </div>
+
+</div>
+</div>
+
+<!-- ================= PUSH & PRESS ================= -->
+<div id="view-push" class="view theme-push">
+
+<div class="header">
+  <h1>PUSH &amp; <span>PRESS</span></h1>
+  <p>Chest - Shoulders - Arms - KB Focus - 60 Min</p>
+</div>
+
+<div class="stats">
+  <div class="stat"><span class="stat-val">60</span><span class="stat-lbl">Minutes</span></div>
+  <div class="stat"><span class="stat-val">8</span><span class="stat-lbl">Exercises</span></div>
+  <div class="stat"><span class="stat-val">3</span><span class="stat-lbl">Muscle Groups</span></div>
+  <div class="stat"><span class="stat-val">90s</span><span class="stat-lbl">Rest</span></div>
+</div>
+
+<div class="muscle-map">
+  <div class="muscle-map-label">Muscle Groups - Session Focus</div>
+  <div class="muscle-pillars">
+    <div class="pillar p-chest">
+      <span class="pillar-icon">+</span>
+      <span class="pillar-name">Chest</span>
+      <span class="pillar-desc">Pecs, serratus, triceps secondary</span>
+    </div>
+    <div class="pillar p-shoulder">
+      <span class="pillar-icon">^</span>
+      <span class="pillar-name">Shoulders</span>
+      <span class="pillar-desc">All three deltoid heads, rotator cuff</span>
+    </div>
+    <div class="pillar p-arms">
+      <span class="pillar-icon">~</span>
+      <span class="pillar-name">Arms</span>
+      <span class="pillar-desc">Biceps, triceps, forearm grip</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="phase-label ph-warm"><span class="title">WARM-UP</span><span class="budget">5 min</span></div>
+  <div class="card warm">
+    <div>
+      <div class="card-num">WARM-UP</div>
+      <div class="card-name">Assault or Rower</div>
+      <div class="card-detail"><strong>5 minutes continuous</strong><br>Arms and legs both on the bike - actively push and pull the handles to get blood into the shoulders and chest before loading. Build to 75% effort by the end.<br><strong>Bike target:</strong> ~45-55 calories over the 5 min.<br><strong>Rower option:</strong> target 950-1,100m over the 5 min (~2:15-2:40 / 500m), drive with the legs and finish the handle at the lower ribs.</div>
+      <div class="card-tip">30 sec rest off the bike before your first press</div>
+    </div>
+    <div><span class="badge b-gold">5 min</span></div>
+  </div>
+
+  <div class="phase-label ph-chest"><span class="title">CHEST BLOCK</span><span class="budget">~16 min</span></div>
+
+  <div class="card">
+    <div>
+      <div class="card-num">01</div>
+      <div class="card-name">Incline Plate-Loaded Press</div>
+      <div class="card-detail"><strong>4 sets x 8-10 reps</strong><br>Set the seat so the handles line up around your upper chest / collarbone. Press to near-full extension without locking the elbows hard, lower under control until you feel a stretch across the pecs. <strong>Target: 90-135 lbs per side. Go heavy - this is your main chest builder now.</strong> The incline angle biases the upper chest, and independent arms stop your strong side taking over. No balancing demand means you can push close to failure safely.</div>
+      <div class="card-tip">Handles at upper-chest height - if one arm lags, match the weaker side and let the stronger one catch up over time</div>
+      <div class="alt-box"><strong>Progression:</strong>Add a plate per side whenever you hit the top of the rep range with clean form - track it so each side stays balanced</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-blue">4 x 8-10</span><span class="badge b-gold">90-135 lb/side</span></div>
+  </div>
+
+  <div class="card">
+    <div>
+      <div class="card-num">02</div>
+      <div class="card-name">Push-Up</div>
+      <div class="card-detail"><strong>3 sets x 12-15 reps</strong><br>Hands slightly wider than shoulder width. Lower chest to an inch off the floor, press back to full lockout. Body in a rigid plank throughout - this is a core exercise as much as a chest exercise. <strong>Target: bodyweight for now - once 3x15 is clean, add a 25-45 lb plate across the upper back.</strong></div>
+      <div class="card-tip">Squeeze the floor inward as you press - it activates the pecs far more than just pushing up</div>
+      <div class="alt-box"><strong>Want more load?</strong>Place a KB or weight plate across your upper back - or elevate feet on a bench for upper chest emphasis</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-blue">3 x 12-15</span><span class="badge b-gold">BW</span></div>
+  </div>
+
+  <div class="phase-label ph-shoulder"><span class="title">SHOULDER BLOCK</span><span class="budget">~16 min</span></div>
+
+  <div class="card shoulder">
+    <div>
+      <div class="card-num">03</div>
+      <div class="card-name">KB Single-Arm Press</div>
+      <div class="card-detail"><strong>4 sets x 8 each arm</strong><br>Bell racked at shoulder, press straight overhead to lockout - controlled up and down, no thrust. <strong>Weight: 20-24 kg (44-53 lbs) single bell per arm.</strong> The single arm creates a rotational core demand your trunk has to resist. Keep ribs down - do not hyperextend the lower back.</div>
+      <div class="card-tip">Strict press - no dip, no leg drive. Press and lower under control both directions. Drive your feet into the floor for tension, but knees and hips stay locked; if your heels lift you have turned it into a push press</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-orange">4 x 8/arm</span><span class="badge b-gold">20-24 kg (44-53 lbs)</span></div>
+  </div>
+
+  <div class="card shoulder">
+    <div>
+      <div class="card-num">04</div>
+      <div class="card-name">Cable Lateral Raise</div>
+      <div class="card-detail"><strong>3 sets x 12-15 reps</strong><br>Low pulley, single cable running across the front of your body, handle in the opposite hand. Slight bend in the elbow, raise out to the side to shoulder height leading with the elbow. <strong>The cable keeps tension on the side delt at the bottom where a dumbbell gives you nothing - that constant load is the whole point.</strong> One arm at a time. Pause 1 sec at the top, slow lower. <strong>Weight: 10-20 lbs on the stack - stay strict.</strong></div>
+      <div class="card-tip">Cross the cable in front so it's already loaded at the bottom. Lead with the elbow, do not flare the wrist up or the front delt takes over</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-orange">3 x 12-15</span><span class="badge b-gold">10-20 lb</span></div>
+  </div>
+
+  <div class="phase-label ph-arms"><span class="title">ARMS BLOCK</span><span class="budget">~16 min</span></div>
+
+  <div class="card arms">
+    <div>
+      <div class="card-num">05</div>
+      <div class="card-name">KB Curl</div>
+      <div class="card-detail"><strong>3 sets x 10 reps</strong><br>One KB in each hand (or one at a time), palms forward. Curl one arm at a time or together. Keep elbows pinned to your sides throughout. <strong>Weight: 14-20 kg (31-44 lbs) PER bell, one in each hand.</strong></div>
+      <div class="card-tip">Supinate the wrist at the top - rotate the pinky up slightly for full bicep contraction</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-teal">3 x 10</span><span class="badge b-gold">14-20 kg (31-44 lbs) each</span></div>
+  </div>
+
+  <div class="card arms">
+    <div>
+      <div class="card-num">06</div>
+      <div class="card-name">KB Hammer Curl</div>
+      <div class="card-detail"><strong>3 sets x 10 reps</strong><br>Palms facing each other, curl with a neutral grip, one arm at a time. <strong>Weight: 14-20 kg (31-44 lbs) PER bell, one in each hand.</strong> Hits the brachialis and brachioradialis which sit underneath the bicep - building these pushes the bicep up and adds serious arm thickness.</div>
+      <div class="card-tip">Controlled all the way down - the eccentric is where the growth happens</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-teal">3 x 10</span><span class="badge b-gold">14-20 kg (31-44 lbs) each</span></div>
+  </div>
+
+  <div class="card arms">
+    <div>
+      <div class="card-num">07</div>
+      <div class="card-name">Rope Tricep Pushdown</div>
+      <div class="card-detail"><strong>3 sets x 12-15 reps</strong><br>High cable with a rope attachment. Elbows pinned to your ribs, push the rope down and <strong>spread the two ends apart at the bottom</strong> for a hard tricep squeeze. Control the weight back up - do not let the elbows drift forward. <strong>Weight: 40-60 lbs on the stack - pick a load you can spread cleanly at the bottom every rep.</strong></div>
+      <div class="card-tip">Elbows stay glued to your sides - if they flare or swing you are pulling with the shoulders, not the triceps. The spread at the bottom is where the activation lives</div>
+      <div class="alt-box"><strong>Can also do:</strong>Overhead rope extension - same rope, face away from the stack, press up and back to bias the long head of the tricep</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-teal">3 x 12-15</span><span class="badge b-gold">40-60 lb</span></div>
+  </div>
+
+  <div class="phase-label ph-finisher"><span class="title">FINISHER</span><span class="budget">~7 min</span></div>
+
+  <div class="card finisher">
+    <div>
+      <div class="card-num">08</div>
+      <div class="card-name">KB Arnold Press</div>
+      <div class="card-detail"><strong>3 sets x 10 reps</strong><br>Start with bells at shoulder height, palms facing you. As you press overhead rotate the palms forward. Reverse on the way down. <strong>Weight: 12-16 kg (26-35 lbs) PER bell, one in each hand.</strong> Hits all three heads of the deltoid in one movement.</div>
+      <div class="card-tip">Slow the rotation down - the turning motion is where the shoulder benefit comes from</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-rust">3 x 10</span><span class="badge b-gold">12-16 kg (26-35 lbs) each</span></div>
+  </div>
+
+  <div class="notes">
+    <h3>SESSION NOTES</h3>
+    <ul>
+      <li>Incline plate-loaded press: biases upper chest - load each side evenly and add a plate when you hit the top of the rep range with clean form</li>
+      <li>Single-arm press: if you are swaying to one side significantly, drop the weight - the lean means the load is too heavy</li>
+      <li>Cable lateral raise: go light and strict - the cable holds tension at the bottom, so it will feel harder than a dumbbell at the same weight. Cross the cable in front to load the bottom of the range</li>
+      <li>Curls: both variations hit different parts of the arm - do not skip the hammer curl</li>
+      <li>Rope pushdown: elbows pinned, spread the rope at the bottom - that spread is why you get more tricep activation than the skull crusher</li>
+      <li>Arnold press is a finisher not a heavy lift - control the rotation, do not rush it</li>
+      <li>Pair with the Trunk and Core session - push-pull split means these two complement each other perfectly</li>
+      <li>Frequency: 2x per week with 48h between sessions</li>
+    </ul>
+  </div>
+
+</div>
+</div>
+
+<!-- ================= LEGS & POWER ================= -->
+<div id="view-legs" class="view theme-legs">
+
+<div class="header">
+  <h1>LEGS &amp; <span>POWER</span></h1>
+  <p>KB Room Then Machine Room - 60 Min</p>
+</div>
+
+<div class="stats">
+  <div class="stat"><span class="stat-val">60</span><span class="stat-lbl">Minutes</span></div>
+  <div class="stat"><span class="stat-val">8</span><span class="stat-lbl">Exercises</span></div>
+  <div class="stat"><span class="stat-val">2</span><span class="stat-lbl">Rooms</span></div>
+  <div class="stat"><span class="stat-val">90s</span><span class="stat-lbl">Rest</span></div>
+</div>
+
+<div class="container">
+
+  <div class="phase-label ph-warm"><span class="title">WARM-UP</span><span class="budget">5 min</span></div>
+  <div class="card warm">
+    <div>
+      <div class="card-num">WARM-UP</div>
+      <div class="card-name">Assault or Rower</div>
+      <div class="card-detail"><strong>5 minutes continuous</strong><br>Legs-focused effort - push hard through the pedals. Build steadily to 80% by the last 60 sec. Gets blood into the quads, hamstrings and hips before loading.<br><strong>Bike target:</strong> ~45-55 calories over the 5 min.<br><strong>Rower option:</strong> target 950-1,100m over the 5 min (~2:15-2:40 / 500m), big leg drive on every stroke.</div>
+      <div class="card-tip">30 sec off the bike before your first squat</div>
+    </div>
+    <div><span class="badge b-gold">5 min</span></div>
+  </div>
+
+  <div class="room-divider">
+    <div class="room-banner kb-room">
+      <span class="room-icon">KB</span>
+      <div class="room-info">
+        <span class="room-title">KETTLEBELL ROOM</span>
+        <span class="room-sub">Compound movements - squat, hinge, lunge - approx 25 min</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-label ph-kb1"><span class="title">SQUAT PATTERN</span><span class="budget">~13 min</span></div>
+
+  <div class="card">
+    <div>
+      <div class="card-num">01</div>
+      <div class="card-name">KB Goblet Squat</div>
+      <div class="card-detail"><strong>4 sets x 10 reps</strong><br>Hold <strong>one single KB by the horns at chest height, 32-40 kg (70-88 lbs).</strong> Feet shoulder-width, toes slightly out. Squat deep - elbows track inside the knees at the bottom. The goblet position keeps your torso upright and loads the quads heavily.</div>
+      <div class="card-tip">Drive knees out as you stand - imagine splitting the floor apart with your feet</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-green">4 x 10</span><span class="badge b-gold">32-40 kg (70-88 lbs)</span></div>
+  </div>
+
+  <div class="card">
+    <div>
+      <div class="card-num">02</div>
+      <div class="card-name">KB Split Squat</div>
+      <div class="card-detail"><strong>3 sets x 8 each leg</strong><br><strong>One KB in each hand at sides, 24-28 kg (53-62 lbs) PER bell.</strong> Staggered stance - front foot flat, back foot on toes. Lower the back knee toward the floor, front shin stays vertical. Complete all reps on one leg before switching.</div>
+      <div class="card-tip">Keep torso completely upright - leaning forward shifts load off the quad</div>
+      <div class="alt-box"><strong>Ready to progress?</strong>Elevate back foot on a bench for the Bulgarian split squat - significantly harder</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-green">3 x 8/leg</span><span class="badge b-gold">24-28 kg (53-62 lbs) each</span></div>
+  </div>
+
+  <div class="phase-label ph-kb2"><span class="title">HINGE PATTERN</span><span class="budget">~12 min</span></div>
+
+  <div class="card kb-hinge">
+    <div>
+      <div class="card-num">03</div>
+      <div class="card-name">KB Romanian Deadlift</div>
+      <div class="card-detail"><strong>4 sets x 10 reps</strong><br><strong>Weight shown (32-40 kg (70-88 lbs)) is TOTAL load. Use one bell at 32-40 kg (70-88 lbs) OR two bells at 16-20 kg (35-44 lbs) each.</strong> Hip hinge with soft knee bend - bells travel down the shins. Pause 1 sec at the bottom to feel the hamstring load, then drive hips forward to stand.</div>
+      <div class="card-tip">The 1 sec pause at the bottom is the difference between going through the motion and actually loading the hamstring</div>
+      <div class="alt-box"><strong>Lower back flare-up?</strong>Return at 12-16 kg (26-35 lbs) total - well below working weight - before building back up over 1-2 weeks</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-amber">4 x 10</span><span class="badge b-gold">32-40 kg (70-88 lbs)</span></div>
+  </div>
+
+  <div class="room-divider">
+    <div class="room-banner machine-room">
+      <span class="room-icon">M</span>
+      <div class="room-info">
+        <span class="room-title">MACHINE ROOM</span>
+        <span class="room-sub">Isolation and finishing work - approx 20 min</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-label ph-machine1"><span class="title">MACHINE BLOCK</span><span class="budget">~13 min</span></div>
+
+  <div class="card machine">
+    <div>
+      <div class="card-num">04</div>
+      <div class="card-name">Leg Press</div>
+      <div class="card-detail"><strong>3 sets x 12 reps</strong><br>Feet shoulder-width, mid-platform. Lower until knees reach 90 degrees - do not let knees cave inward. Press through the whole foot, not just the toes. After the KB compound work your quads are already warm so go heavier than you would cold. <strong>Target: 300-400 lbs.</strong></div>
+      <div class="card-tip">Do not lock knees out fully at the top - keep a slight bend to maintain tension on the quad throughout</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><div class="machine-tag">MACHINE</div><span class="badge b-blue">3 x 12</span><span class="badge b-gold">300-400 lb</span></div>
+  </div>
+
+  <div class="card machine">
+    <div>
+      <div class="card-num">05</div>
+      <div class="card-name">Lying Leg Curl</div>
+      <div class="card-detail"><strong>3 sets x 12 reps</strong><br>Adjust pad to sit just above the ankle. Curl heels toward glutes with control, pause 1 sec at peak contraction, slow 3 second lower. The slow eccentric here is critical - that is where the hamstring strengthening happens. <strong>Target: 70-100 lbs.</strong></div>
+      <div class="card-tip">Hips stay flat on the pad - if they are rising you are using too much weight</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><div class="machine-tag">MACHINE</div><span class="badge b-blue">3 x 12</span><span class="badge b-gold">70-100 lb</span></div>
+  </div>
+
+  <div class="phase-label ph-machine2"><span class="title">ISOLATION FINISHER</span><span class="budget">~7 min</span></div>
+
+  <div class="card machine-finish">
+    <div>
+      <div class="card-num">06</div>
+      <div class="card-name">Leg Extension</div>
+      <div class="card-detail"><strong>2 sets x 15 reps</strong><br>Pad resting on the lower shin. Extend to full lockout and hold 1 sec at the top, slow lower. Pure quad isolation - finishes the muscle after the compound work. Do not go heavy here, focus on the squeeze at the top. <strong>Target: 50-80 lbs.</strong></div>
+      <div class="card-tip">Point toes slightly inward to bias the outer quad sweep - or toes out for inner quad</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,60)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">60s</span>
+      </button>
+    </div>
+    <div><div class="machine-tag">MACHINE</div><span class="badge b-purple">2 x 15</span><span class="badge b-gold">50-80 lb</span></div>
+  </div>
+
+  <div class="card machine-finish">
+    <div>
+      <div class="card-num">07</div>
+      <div class="card-name">Hip Abductor Machine</div>
+      <div class="card-detail"><strong>2 sets x 15 reps</strong><br>Sit with pads on the outer thighs. Push knees apart against resistance, hold 1 sec at full abduction, slow return. Targets the glute medius directly - critical for knee stability and hip alignment. Do not slam the weight back in. <strong>Target: 80-120 lbs.</strong></div>
+      <div class="card-tip">Sit upright, not leaning back - the lean shifts the work away from glute med onto TFL</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,60)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">60s</span>
+      </button>
+    </div>
+    <div><div class="machine-tag">MACHINE</div><span class="badge b-purple">2 x 15</span><span class="badge b-gold">80-120 lb</span></div>
+  </div>
+
+  <div class="card machine-finish">
+    <div>
+      <div class="card-num">08</div>
+      <div class="card-name">Calf Raise</div>
+      <div class="card-detail"><strong>3 sets x 15 reps</strong><br>Standing or seated calf raise machine. Full range - lower heel completely below the platform for a deep stretch, raise to full tiptoe. Calves respond well to high reps and full range. Slow 3 sec lower on every rep. <strong>Target: 150-220 lbs.</strong></div>
+      <div class="card-tip">Most people only do the top half of this movement - the stretch at the bottom is where the growth comes from</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,60)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">60s</span>
+      </button>
+    </div>
+    <div><div class="machine-tag">MACHINE</div><span class="badge b-purple">3 x 15</span><span class="badge b-gold">150-220 lb</span></div>
+  </div>
+
+  <div class="notes">
+    <h3>SESSION NOTES</h3>
+    <ul>
+      <li>KB room first - compound movements go before isolation, always</li>
+      <li>Goblet squat: if heels rise, widen stance slightly or place a small plate under heels while you build ankle mobility</li>
+      <li>RDL: 1 sec pause at the bottom on leg day - this is different to your core session version</li>
+      <li>Leg press: you are already warm from KB work so load it heavier than you would coming in cold</li>
+      <li>Leg curl: 3 sec slow lower on every rep - do not rush the eccentric</li>
+      <li>Leg extension and abductor machine are finishers - lighter weight, feel the contraction</li>
+      <li>Calf raise: full stretch at the bottom every single rep, not just the top half</li>
+      <li>Suggested split: Mon core, Wed legs, Fri push and press</li>
+    </ul>
+  </div>
+
+</div>
+</div>
+
+
+<!-- ================= TRUNK & CORE (DUMBBELL) ================= -->
+<div id="view-core-db" class="view theme-core">
+
+<div class="header">
+  <h1>TRUNK &amp; <span>CORE</span></h1>
+  <p>Dumbbell Version - No Kettlebells - 60 Min</p>
+</div>
+
+<div class="stats">
+  <div class="stat"><span class="stat-val">60</span><span class="stat-lbl">Minutes</span></div>
+  <div class="stat"><span class="stat-val">7</span><span class="stat-lbl">Exercises</span></div>
+  <div class="stat"><span class="stat-val">3</span><span class="stat-lbl">Vectors</span></div>
+  <div class="stat"><span class="stat-val">90s</span><span class="stat-lbl">Rest</span></div>
+</div>
+
+<div class="container">
+
+  <div class="phase-label ph-warm"><span class="title">WARM-UP</span><span class="budget">5 min</span></div>
+  <div class="card warm">
+    <div>
+      <div class="card-num">WARM-UP</div>
+      <div class="card-name">Assault or Rower</div>
+      <div class="card-detail"><strong>5 minutes continuous</strong><br>Easy first 2 min, build to moderate, push to 80% for the last 60 sec.<br><strong>Bike target:</strong> ~45-55 calories over the 5 min.<br><strong>Rower option:</strong> target 950-1,100m over the 5 min (~2:15-2:40 / 500m), three pacing phases.</div>
+      <div class="card-tip">Take 30 sec off before your first swing</div>
+    </div>
+    <div><span class="badge b-gold">5 min</span></div>
+  </div>
+
+  <div class="phase-label ph-power"><span class="title">POWER BLOCK</span><span class="budget">~14 min</span></div>
+
+  <div class="card">
+    <div>
+      <div class="card-num">01</div>
+      <div class="card-name">DB Swing</div>
+      <div class="card-detail"><strong>4 sets x 12 reps</strong><br>Hold <strong>one dumbbell vertically by one end with both hands</strong> (cup the top bell). Explosive hip hinge, snap the hips, brace hard at the top - think plank standing up at lockout. <strong>Weight: 40-60 lbs single DB.</strong> Go a touch lighter than a KB swing - the DB shape is less swing-friendly, so control the arc.</div>
+      <div class="card-tip">Hike it back aggressively between the legs - hinge, do not squat it</div>
+      <div class="alt-box"><strong>Lower back flare-up?</strong>Skip entirely until pain-free, then return at 15-20 lbs - well below working weight - before building back up over 1-2 weeks</div>
+      <div class="alt-box"><strong>Prefer a cleaner hinge?</strong>Sub DB Romanian Deadlift 4 x 10, one DB each hand 35-45 lbs, for the same posterior-chain hit without the swing arc</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-red">4 x 12</span><span class="badge b-gold">40-60 lbs</span></div>
+  </div>
+
+  <div class="card">
+    <div>
+      <div class="card-num">02</div>
+      <div class="card-name">Assisted Pull-Up Machine</div>
+      <div class="card-detail"><strong>4 sets x 6-8 reps</strong><br>Kneel or stand on the assisted pull-up machine platform, hands wide overhand. The counterweight supports part of your bodyweight - full dead hang to chin over the bar every rep. <strong>New baseline: 30-35 lbs assist (down from 50 - 6 months at 50 was a habit ceiling, not a strength ceiling).</strong> Order sets lightest assist first while fresh, heaviest assist last: e.g. 30 - 30 - 40 - 40.</div>
+      <div class="card-tip">Retest your real ceiling every 2-3 weeks, fresh - not on a fatigued last set. Lower the assist weight as you get stronger (less help = closer to unassisted)</div>
+      <div class="alt-box"><strong>No assist machine? Alternatives:</strong>Band-assisted pull-up on the bar - or - Lat Pulldown machine 4 x 8</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-red">4 x 6-8</span><span class="badge b-gold">30-35 lb assist</span></div>
+  </div>
+
+  <div class="phase-label ph-anti"><span class="title">ANTI-ROTATION</span><span class="budget">~13 min</span></div>
+
+  <div class="card anti">
+    <div>
+      <div class="card-num">03</div>
+      <div class="card-name">DB Pull-Through</div>
+      <div class="card-detail"><strong>3 sets x 10 each side</strong><br>High plank, reach under and drag a hex dumbbell across with the opposite hand. Hips want to rotate - do not let them. Slow drag, slow return. <strong>Weight: single DB, 20-30 lbs.</strong> Keep the DB tracking under your shoulders, not your stomach.</div>
+      <div class="card-tip">Feet wider than shoulder-width gives a more stable base. A hex/flat-sided DB drags better than a round one</div>
+      <div class="alt-box"><strong>Lower back flare-up?</strong>Hold off on this one longest - it's a common trigger. Once pain-free, return at 10-12 lbs, later than your other hinge work. Sub extra Bird Dog sets in the meantime</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-purple">3 x 10/side</span><span class="badge b-purple">20-30 lbs</span></div>
+  </div>
+
+  <div class="card anti">
+    <div>
+      <div class="card-num">04</div>
+      <div class="card-name">Pallof Press</div>
+      <div class="card-detail"><strong>3 sets x 10 reps each side</strong><br>Low cable pulley at chest height, or a band anchored to a rack. Stand side-on, hold with both hands at chest, press straight out, hold 2 sec, return. Obliques resist the rotation entirely. <strong>Target: 25-40 lbs on a low cable pulley - if using a band, go medium-to-heavy tension.</strong></div>
+      <div class="card-tip">Further from anchor = harder. Own the position before adding distance.</div>
+      <div class="alt-box"><strong>No anchor? Alternative:</strong>Half-kneeling DB halo, slow, 3 x 8 each direction</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-purple">3 x 10/side</span><span class="badge b-purple">25-40 lb</span></div>
+  </div>
+
+  <div class="phase-label ph-flex"><span class="title">FLEXION BLOCK</span><span class="budget">~13 min</span></div>
+
+  <div class="card flex">
+    <div>
+      <div class="card-num">05</div>
+      <div class="card-name">Lying Leg Raise to Candlestick</div>
+      <div class="card-detail"><strong>4 sets x 10-12 reps</strong><br>Lie flat on your back, hands by your sides or tucked under your lower back. Raise straight legs to vertical, then at the top drive the pelvis off the floor so your legs point straight up at the ceiling (the candlestick). Slow, controlled lower - do not let the lower back arch off the floor on the way down. <strong>Target: bodyweight - no added load here, progress by owning full control at 4x12 before adding reps.</strong></div>
+      <div class="card-tip">The pelvis lift at the very top is the whole point - that final curl of the hips off the floor is where the lower abs actually fire</div>
+      <div class="alt-box"><strong>Lower back flare-up?</strong>Skip the pelvis lift and any loaded flexion entirely until pain-free. A gentle Dead Bug (opposite arm/leg reach, low back pressed flat) is a safer core option in the meantime</div>
+      <div class="alt-box"><strong>Too hard?</strong>Drop the hip lift and do plain lying leg raises with the back glued to the floor - add the pelvis lift back in once those feel easy, or bend the knees to shorten the lever</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-red">4 x 10-12</span><span class="badge b-gold">BW</span></div>
+  </div>
+
+  <div class="phase-label ph-post"><span class="title">POSTERIOR CHAIN</span><span class="budget">~15 min</span></div>
+
+  <div class="card post">
+    <div>
+      <div class="card-num">06</div>
+      <div class="card-name">DB Romanian Deadlift</div>
+      <div class="card-detail"><strong>3 sets x 10 reps</strong><br>One dumbbell in each hand, resting against the front of the thighs. <strong>Weight: 35-45 lbs per DB.</strong> Hinge at the hip with a soft knee bend - DBs travel down the front of the legs. Feel the hamstring load, drive hips forward to stand.</div>
+      <div class="card-tip">If your lower back rounds you have gone too heavy or too deep</div>
+      <div class="alt-box"><strong>Lower back flare-up?</strong>Return at 15-20 lbs per DB - well below working weight - before building back up over 1-2 weeks</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-green">3 x 10</span><span class="badge b-green">35-45 lbs each</span></div>
+  </div>
+
+  <div class="card post">
+    <div>
+      <div class="card-num">07</div>
+      <div class="card-name">Bird Dog</div>
+      <div class="card-detail"><strong>3 sets x 10 each side</strong><br>On all fours, extend opposite arm and leg. Hold 3 sec at full extension before returning. Hits the erectors and deep stabilisers hard when done right. <strong>Target: bodyweight - add a light-to-medium band (see below) once controlled bodyweight reps feel easy.</strong></div>
+      <div class="card-tip">Think reach long not lift high - length activates the erectors</div>
+      <div class="alt-box"><strong>Want more load?</strong>Loop a thin resistance band around the extended foot and the opposite hand - the band pulls back as you reach, adding resistance right at full extension where it counts</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-green">3 x 10/side</span><span class="badge b-green">BW</span></div>
+  </div>
+
+  <div class="notes">
+    <h3>SESSION NOTES</h3>
+    <ul>
+      <li>Dumbbell version - same session shape as your KB core day, swapped for the no-kettlebell gym</li>
+      <li>Pull-up: working assist is now 30-35 lbs (habit ceiling broken after 6 months stuck at 50) - order sets lightest-assist-first while fresh. Retest true ceiling every 2-3 weeks, fresh, not on a fatigued last set</li>
+      <li>DB swing: hold one DB by one end, both hands - go lighter than a KB swing and control the arc. Prefer the DB RDL sub if the swing feels clunky</li>
+      <li>Pallof press: pause 2 full seconds at extension - that is where the work happens</li>
+      <li>DB pull-through: keep it under the shoulders, not the stomach, or the hips drop and you lose the anti-rotation</li>
+      <li>Lying leg raise to candlestick: the pelvis lift at the top is the key - keep the lower back flat on the descent, no arching</li>
+      <li>Bird dog is deceptively hard at the end - do not skip it</li>
+      <li>Frequency: 2-3x per week with 48h recovery between sessions</li>
+    </ul>
+  </div>
+
+</div>
+</div>
+
+<!-- ================= PUSH & PRESS (DUMBBELL) ================= -->
+<div id="view-push-db" class="view theme-push">
+
+<div class="header">
+  <h1>PUSH &amp; <span>PRESS</span></h1>
+  <p>Dumbbell &amp; Machine - No Kettlebells - 60 Min</p>
+</div>
+
+<div class="stats">
+  <div class="stat"><span class="stat-val">60</span><span class="stat-lbl">Minutes</span></div>
+  <div class="stat"><span class="stat-val">8</span><span class="stat-lbl">Exercises</span></div>
+  <div class="stat"><span class="stat-val">3</span><span class="stat-lbl">Muscle Groups</span></div>
+  <div class="stat"><span class="stat-val">90s</span><span class="stat-lbl">Rest</span></div>
+</div>
+
+<div class="muscle-map">
+  <div class="muscle-map-label">Muscle Groups - Session Focus</div>
+  <div class="muscle-pillars">
+    <div class="pillar p-chest">
+      <span class="pillar-icon">+</span>
+      <span class="pillar-name">Chest</span>
+      <span class="pillar-desc">Pecs, serratus, triceps secondary</span>
+    </div>
+    <div class="pillar p-shoulder">
+      <span class="pillar-icon">^</span>
+      <span class="pillar-name">Shoulders</span>
+      <span class="pillar-desc">All three deltoid heads, rotator cuff</span>
+    </div>
+    <div class="pillar p-arms">
+      <span class="pillar-icon">~</span>
+      <span class="pillar-name">Arms</span>
+      <span class="pillar-desc">Biceps, triceps, forearm grip</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="phase-label ph-warm"><span class="title">WARM-UP</span><span class="budget">5 min</span></div>
+  <div class="card warm">
+    <div>
+      <div class="card-num">WARM-UP</div>
+      <div class="card-name">Assault or Rower</div>
+      <div class="card-detail"><strong>5 minutes continuous</strong><br>Arms and legs both on the bike - actively push and pull the handles to get blood into the shoulders and chest before loading. Build to 75% effort by the end.<br><strong>Bike target:</strong> ~45-55 calories over the 5 min.<br><strong>Rower option:</strong> target 950-1,100m over the 5 min (~2:15-2:40 / 500m), drive with the legs and finish the handle at the lower ribs.</div>
+      <div class="card-tip">30 sec rest off before your first press</div>
+    </div>
+    <div><span class="badge b-gold">5 min</span></div>
+  </div>
+
+  <div class="phase-label ph-chest"><span class="title">CHEST BLOCK</span><span class="budget">~16 min</span></div>
+
+  <div class="card">
+    <div>
+      <div class="card-num">01</div>
+      <div class="card-name">Incline Plate-Loaded Press</div>
+      <div class="card-detail"><strong>4 sets x 8-10 reps</strong><br>Set the seat so the handles line up around your upper chest / collarbone. Press to near-full extension without locking the elbows hard, lower under control until you feel a stretch across the pecs. <strong>Target: 90-135 lbs per side. Go heavy - this is your main chest builder now.</strong> The incline angle biases the upper chest, and independent arms stop your strong side taking over. No balancing demand means you can push close to failure safely.</div>
+      <div class="card-tip">Handles at upper-chest height - if one arm lags, match the weaker side and let the stronger one catch up over time</div>
+      <div class="alt-box"><strong>Progression:</strong>Add a plate per side whenever you hit the top of the rep range with clean form - track it so each side stays balanced</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-blue">4 x 8-10</span><span class="badge b-gold">90-135 lb/side</span></div>
+  </div>
+
+  <div class="card">
+    <div>
+      <div class="card-num">02</div>
+      <div class="card-name">Push-Up</div>
+      <div class="card-detail"><strong>3 sets x 12-15 reps</strong><br>Hands slightly wider than shoulder width. Lower chest to an inch off the floor, press back to full lockout. Body in a rigid plank throughout - this is a core exercise as much as a chest exercise. <strong>Target: bodyweight for now - once 3x15 is clean, add a 25-45 lb plate across the upper back.</strong></div>
+      <div class="card-tip">Squeeze the floor inward as you press - it activates the pecs far more than just pushing up</div>
+      <div class="alt-box"><strong>Want more load?</strong>Place a weight plate across your upper back - or elevate feet on a bench for upper chest emphasis</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-blue">3 x 12-15</span><span class="badge b-gold">BW</span></div>
+  </div>
+
+  <div class="phase-label ph-shoulder"><span class="title">SHOULDER BLOCK</span><span class="budget">~16 min</span></div>
+
+  <div class="card shoulder">
+    <div>
+      <div class="card-num">03</div>
+      <div class="card-name">DB Single-Arm Press</div>
+      <div class="card-detail"><strong>4 sets x 8 each arm</strong><br>Dumbbell racked at shoulder, press straight overhead to lockout - controlled up and down, no thrust. <strong>Weight: 45-55 lbs single DB per arm.</strong> The single arm creates a rotational core demand your trunk has to resist. Keep ribs down - do not hyperextend the lower back.</div>
+      <div class="card-tip">Strict press - no dip, no leg drive. Press and lower under control both directions. Drive your feet into the floor for tension, but knees and hips stay locked; if your heels lift you have turned it into a push press</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-orange">4 x 8/arm</span><span class="badge b-gold">45-55 lbs</span></div>
+  </div>
+
+  <div class="card shoulder">
+    <div>
+      <div class="card-num">04</div>
+      <div class="card-name">Cable Lateral Raise</div>
+      <div class="card-detail"><strong>3 sets x 12-15 reps</strong><br>Low pulley, single cable running across the front of your body, handle in the opposite hand. Slight bend in the elbow, raise out to the side to shoulder height leading with the elbow. <strong>The cable keeps tension on the side delt at the bottom where a dumbbell gives you nothing - that constant load is the whole point.</strong> One arm at a time. Pause 1 sec at the top, slow lower. <strong>Weight: 10-20 lbs on the stack - stay strict.</strong></div>
+      <div class="card-tip">Cross the cable in front so it's already loaded at the bottom. Lead with the elbow, do not flare the wrist up or the front delt takes over</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-orange">3 x 12-15</span><span class="badge b-gold">10-20 lb</span></div>
+  </div>
+
+  <div class="phase-label ph-arms"><span class="title">ARMS BLOCK</span><span class="budget">~16 min</span></div>
+
+  <div class="card arms">
+    <div>
+      <div class="card-num">05</div>
+      <div class="card-name">DB Curl</div>
+      <div class="card-detail"><strong>3 sets x 10 reps</strong><br>One DB in each hand, palms forward. Curl one arm at a time or together. Keep elbows pinned to your sides throughout. <strong>Weight: 30-45 lbs per DB.</strong></div>
+      <div class="card-tip">Supinate the wrist at the top - rotate the pinky up slightly for full bicep contraction</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-teal">3 x 10</span><span class="badge b-gold">30-45 lbs each</span></div>
+  </div>
+
+  <div class="card arms">
+    <div>
+      <div class="card-num">06</div>
+      <div class="card-name">DB Hammer Curl</div>
+      <div class="card-detail"><strong>3 sets x 10 reps</strong><br>Palms facing each other, curl with a neutral grip, one arm at a time. <strong>Weight: 30-45 lbs per DB.</strong> Hits the brachialis and brachioradialis which sit underneath the bicep - building these pushes the bicep up and adds serious arm thickness.</div>
+      <div class="card-tip">Controlled all the way down - the eccentric is where the growth happens</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-teal">3 x 10</span><span class="badge b-gold">30-45 lbs each</span></div>
+  </div>
+
+  <div class="card arms">
+    <div>
+      <div class="card-num">07</div>
+      <div class="card-name">Rope Tricep Pushdown</div>
+      <div class="card-detail"><strong>3 sets x 12-15 reps</strong><br>High cable with a rope attachment. Elbows pinned to your ribs, push the rope down and <strong>spread the two ends apart at the bottom</strong> for a hard tricep squeeze. Control the weight back up - do not let the elbows drift forward. <strong>Weight: 40-60 lbs on the stack - pick a load you can spread cleanly at the bottom every rep.</strong></div>
+      <div class="card-tip">Elbows stay glued to your sides - if they flare or swing you are pulling with the shoulders, not the triceps. The spread at the bottom is where the activation lives</div>
+      <div class="alt-box"><strong>Can also do:</strong>Overhead rope extension - same rope, face away from the stack, press up and back to bias the long head of the tricep</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-teal">3 x 12-15</span><span class="badge b-gold">40-60 lb</span></div>
+  </div>
+
+  <div class="phase-label ph-finisher"><span class="title">FINISHER</span><span class="budget">~7 min</span></div>
+
+  <div class="card finisher">
+    <div>
+      <div class="card-num">08</div>
+      <div class="card-name">DB Arnold Press</div>
+      <div class="card-detail"><strong>3 sets x 10 reps</strong><br>Start with DBs at shoulder height, palms facing you. As you press overhead rotate the palms forward. Reverse on the way down. <strong>Weight: 25-35 lbs per DB.</strong> Hits all three heads of the deltoid in one movement.</div>
+      <div class="card-tip">Slow the rotation down - the turning motion is where the shoulder benefit comes from</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-rust">3 x 10</span><span class="badge b-gold">25-35 lbs each</span></div>
+  </div>
+
+  <div class="notes">
+    <h3>SESSION NOTES</h3>
+    <ul>
+      <li>Dumbbell version - your no-kettlebell gym build, same shape as the KB push day</li>
+      <li>Incline plate-loaded press: your main chest builder - load each side evenly and add a plate when you hit the top of the rep range</li>
+      <li>Single-arm press: if you are swaying to one side significantly, drop the weight - the lean means the load is too heavy</li>
+      <li>Cable lateral raise: go light and strict - the cable holds tension at the bottom, so it will feel harder than a dumbbell at the same weight. Cross the cable in front to load the bottom of the range</li>
+      <li>Curls: both variations hit different parts of the arm - do not skip the hammer curl</li>
+      <li>Rope pushdown: elbows pinned, spread the rope at the bottom - that spread is why you get more tricep activation than the skull crusher</li>
+      <li>Arnold press is a finisher not a heavy lift - control the rotation, do not rush it</li>
+      <li>Frequency: 2x per week with 48h between sessions</li>
+    </ul>
+  </div>
+
+</div>
+</div>
+
+<!-- ================= LEGS & POWER (DUMBBELL) ================= -->
+<div id="view-legs-db" class="view theme-legs">
+
+<div class="header">
+  <h1>LEGS &amp; <span>POWER</span></h1>
+  <p>Dumbbell Compounds Then Machine Room - 60 Min</p>
+</div>
+
+<div class="stats">
+  <div class="stat"><span class="stat-val">60</span><span class="stat-lbl">Minutes</span></div>
+  <div class="stat"><span class="stat-val">8</span><span class="stat-lbl">Exercises</span></div>
+  <div class="stat"><span class="stat-val">2</span><span class="stat-lbl">Rooms</span></div>
+  <div class="stat"><span class="stat-val">90s</span><span class="stat-lbl">Rest</span></div>
+</div>
+
+<div class="container">
+
+  <div class="phase-label ph-warm"><span class="title">WARM-UP</span><span class="budget">5 min</span></div>
+  <div class="card warm">
+    <div>
+      <div class="card-num">WARM-UP</div>
+      <div class="card-name">Assault or Rower</div>
+      <div class="card-detail"><strong>5 minutes continuous</strong><br>Legs-focused effort - push hard through the pedals. Build steadily to 80% by the last 60 sec. Gets blood into the quads, hamstrings and hips before loading.<br><strong>Bike target:</strong> ~45-55 calories over the 5 min.<br><strong>Rower option:</strong> target 950-1,100m over the 5 min (~2:15-2:40 / 500m), big leg drive on every stroke.</div>
+      <div class="card-tip">30 sec off before your first squat</div>
+    </div>
+    <div><span class="badge b-gold">5 min</span></div>
+  </div>
+
+  <div class="room-divider">
+    <div class="room-banner kb-room">
+      <span class="room-icon">DB</span>
+      <div class="room-info">
+        <span class="room-title">FREE-WEIGHT AREA</span>
+        <span class="room-sub">Dumbbell compounds - squat, hinge, lunge - approx 25 min</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-label ph-kb1"><span class="title">SQUAT PATTERN</span><span class="budget">~13 min</span></div>
+
+  <div class="card">
+    <div>
+      <div class="card-num">01</div>
+      <div class="card-name">DB Goblet Squat</div>
+      <div class="card-detail"><strong>4 sets x 10 reps</strong><br>Hold <strong>one dumbbell vertically against your chest, cupping the top bell, 70-90 lbs.</strong> Feet shoulder-width, toes slightly out. Squat deep - elbows track inside the knees at the bottom. The goblet position keeps your torso upright and loads the quads heavily.</div>
+      <div class="card-tip">Drive knees out as you stand - imagine splitting the floor apart with your feet</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-green">4 x 10</span><span class="badge b-gold">70-90 lbs</span></div>
+  </div>
+
+  <div class="card">
+    <div>
+      <div class="card-num">02</div>
+      <div class="card-name">DB Split Squat</div>
+      <div class="card-detail"><strong>3 sets x 8 each leg</strong><br><strong>One dumbbell in each hand at sides, 50-60 lbs PER DB.</strong> Staggered stance - front foot flat, back foot on toes. Lower the back knee toward the floor, front shin stays vertical. Complete all reps on one leg before switching.</div>
+      <div class="card-tip">Keep torso completely upright - leaning forward shifts load off the quad</div>
+      <div class="alt-box"><strong>Ready to progress?</strong>Elevate back foot on a bench for the Bulgarian split squat - significantly harder</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-green">3 x 8/leg</span><span class="badge b-gold">50-60 lbs each</span></div>
+  </div>
+
+  <div class="phase-label ph-kb2"><span class="title">HINGE PATTERN</span><span class="budget">~12 min</span></div>
+
+  <div class="card kb-hinge">
+    <div>
+      <div class="card-num">03</div>
+      <div class="card-name">DB Romanian Deadlift</div>
+      <div class="card-detail"><strong>4 sets x 10 reps</strong><br><strong>One dumbbell in each hand, 40-50 lbs PER DB, resting against the front of the thighs.</strong> Hip hinge with soft knee bend - DBs travel down the front of the legs. Pause 1 sec at the bottom to feel the hamstring load, then drive hips forward to stand.</div>
+      <div class="card-tip">The 1 sec pause at the bottom is the difference between going through the motion and actually loading the hamstring</div>
+      <div class="alt-box"><strong>Lower back flare-up?</strong>Return at 15-20 lbs per DB - well below working weight - before building back up over 1-2 weeks</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-amber">4 x 10</span><span class="badge b-gold">40-50 lbs each</span></div>
+  </div>
+
+  <div class="room-divider">
+    <div class="room-banner machine-room">
+      <span class="room-icon">M</span>
+      <div class="room-info">
+        <span class="room-title">MACHINE ROOM</span>
+        <span class="room-sub">Isolation and finishing work - approx 20 min</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-label ph-machine1"><span class="title">MACHINE BLOCK</span><span class="budget">~13 min</span></div>
+
+  <div class="card machine">
+    <div>
+      <div class="card-num">04</div>
+      <div class="card-name">Leg Press</div>
+      <div class="card-detail"><strong>3 sets x 12 reps</strong><br>Feet shoulder-width, mid-platform. Lower until knees reach 90 degrees - do not let knees cave inward. Press through the whole foot, not just the toes. After the DB compound work your quads are already warm so go heavier than you would cold. <strong>Target: 300-400 lbs.</strong></div>
+      <div class="card-tip">Do not lock knees out fully at the top - keep a slight bend to maintain tension on the quad throughout</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><div class="machine-tag">MACHINE</div><span class="badge b-blue">3 x 12</span><span class="badge b-gold">300-400 lb</span></div>
+  </div>
+
+  <div class="card machine">
+    <div>
+      <div class="card-num">05</div>
+      <div class="card-name">Lying Leg Curl</div>
+      <div class="card-detail"><strong>3 sets x 12 reps</strong><br>Adjust pad to sit just above the ankle. Curl heels toward glutes with control, pause 1 sec at peak contraction, slow 3 second lower. The slow eccentric here is critical - that is where the hamstring strengthening happens. <strong>Target: 70-100 lbs.</strong></div>
+      <div class="card-tip">Hips stay flat on the pad - if they are rising you are using too much weight</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><div class="machine-tag">MACHINE</div><span class="badge b-blue">3 x 12</span><span class="badge b-gold">70-100 lb</span></div>
+  </div>
+
+  <div class="phase-label ph-machine2"><span class="title">ISOLATION FINISHER</span><span class="budget">~7 min</span></div>
+
+  <div class="card machine-finish">
+    <div>
+      <div class="card-num">06</div>
+      <div class="card-name">Leg Extension</div>
+      <div class="card-detail"><strong>2 sets x 15 reps</strong><br>Pad resting on the lower shin. Extend to full lockout and hold 1 sec at the top, slow lower. Pure quad isolation - finishes the muscle after the compound work. Do not go heavy here, focus on the squeeze at the top. <strong>Target: 50-80 lbs.</strong></div>
+      <div class="card-tip">Point toes slightly inward to bias the outer quad sweep - or toes out for inner quad</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,60)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">60s</span>
+      </button>
+    </div>
+    <div><div class="machine-tag">MACHINE</div><span class="badge b-purple">2 x 15</span><span class="badge b-gold">50-80 lb</span></div>
+  </div>
+
+  <div class="card machine-finish">
+    <div>
+      <div class="card-num">07</div>
+      <div class="card-name">Hip Abductor Machine</div>
+      <div class="card-detail"><strong>2 sets x 15 reps</strong><br>Sit with pads on the outer thighs. Push knees apart against resistance, hold 1 sec at full abduction, slow return. Targets the glute medius directly - critical for knee stability and hip alignment. Do not slam the weight back in. <strong>Target: 80-120 lbs.</strong></div>
+      <div class="card-tip">Sit upright, not leaning back - the lean shifts the work away from glute med onto TFL</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,60)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">60s</span>
+      </button>
+    </div>
+    <div><div class="machine-tag">MACHINE</div><span class="badge b-purple">2 x 15</span><span class="badge b-gold">80-120 lb</span></div>
+  </div>
+
+  <div class="card machine-finish">
+    <div>
+      <div class="card-num">08</div>
+      <div class="card-name">Calf Raise</div>
+      <div class="card-detail"><strong>3 sets x 15 reps</strong><br>Standing or seated calf raise machine. Full range - lower heel completely below the platform for a deep stretch, raise to full tiptoe. Calves respond well to high reps and full range. Slow 3 sec lower on every rep. <strong>Target: 150-220 lbs.</strong></div>
+      <div class="card-tip">Most people only do the top half of this movement - the stretch at the bottom is where the growth comes from</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,60)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">60s</span>
+      </button>
+    </div>
+    <div><div class="machine-tag">MACHINE</div><span class="badge b-purple">3 x 15</span><span class="badge b-gold">150-220 lb</span></div>
+  </div>
+
+  <div class="notes">
+    <h3>SESSION NOTES</h3>
+    <ul>
+      <li>Dumbbell version - free-weight compounds swapped from KB, machine block is identical to your KB leg day</li>
+      <li>Goblet squat: hold one DB vertically against the chest. If heels rise, widen stance slightly or place a small plate under the heels</li>
+      <li>DB RDL: 1 sec pause at the bottom on leg day - this is different to your core session version</li>
+      <li>Leg press: you are already warm from the DB work so load it heavier than you would coming in cold</li>
+      <li>Leg curl: 3 sec slow lower on every rep - do not rush the eccentric</li>
+      <li>Leg extension and abductor machine are finishers - lighter weight, feel the contraction</li>
+      <li>Calf raise: full stretch at the bottom every single rep, not just the top half</li>
+    </ul>
+  </div>
+
+</div>
+</div>
+
+
+<!-- ================= PULL & BACK (KETTLEBELL) ================= -->
+<div id="view-pull" class="view theme-pull">
+
+<div class="header">
+  <h1>PULL &amp; <span>BACK</span></h1>
+  <p>Vertical Pull - Horizontal Row - Rear Delt - 60 Min</p>
+</div>
+
+<div class="stats">
+  <div class="stat"><span class="stat-val">60</span><span class="stat-lbl">Minutes</span></div>
+  <div class="stat"><span class="stat-val">8</span><span class="stat-lbl">Exercises</span></div>
+  <div class="stat"><span class="stat-val">2</span><span class="stat-lbl">Patterns</span></div>
+  <div class="stat"><span class="stat-val">90s</span><span class="stat-lbl">Rest</span></div>
+</div>
+
+<div class="container">
+
+  <div class="phase-label ph-warm"><span class="title">WARM-UP</span><span class="budget">5 min</span></div>
+  <div class="card warm">
+    <div>
+      <div class="card-num">WARM-UP</div>
+      <div class="card-name">Assault or Rower</div>
+      <div class="card-detail"><strong>5 minutes continuous</strong><br>Easy first 2 min, build to moderate, arms actively pulling on the bike or rower handles to prime the back before loading.<br><strong>Bike target:</strong> ~45-55 calories over the 5 min.<br><strong>Rower option:</strong> target 950-1,100m over the 5 min (~2:15-2:40 / 500m), focus on the pull, not just the legs.</div>
+      <div class="card-tip">30 sec off before your first pull</div>
+    </div>
+    <div><span class="badge b-gold">5 min</span></div>
+  </div>
+
+  <div class="phase-label ph-vert"><span class="title">VERTICAL PULL</span><span class="budget">~14 min</span></div>
+
+  <div class="card">
+    <div>
+      <div class="card-num">01</div>
+      <div class="card-name">Assisted Pull-Up Machine</div>
+      <div class="card-detail"><strong>4 sets x 6-8 reps</strong><br>Same machine as Core day, but this is the priority lift for the whole week - push the assist down toward your working range here first, before Core day gets its turn. <strong>Working baseline: 30-35 lbs assist.</strong> Order sets lightest-assist-first while fresh. Full dead hang to chin over the bar every rep.</div>
+      <div class="card-tip">This is the exercise the whole day exists to support - retest your true ceiling every 2-3 weeks, fresh, not on a fatigued set</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-crimson">4 x 6-8</span><span class="badge b-gold">30-35 lb assist</span></div>
+  </div>
+
+  <div class="card">
+    <div>
+      <div class="card-num">02</div>
+      <div class="card-name">Wide-Grip Lat Pulldown</div>
+      <div class="card-detail"><strong>3 sets x 10 reps</strong><br>Wide overhand grip, hands outside shoulder width. Pull the bar to your upper chest, driving the elbows down and back - lean back slightly, do not swing. A second vertical pull that trains the same pattern as a pull-up while letting you control the exact load - useful volume that doesn't interfere with your assist-machine progress. <strong>Target: 100-140 lbs.</strong></div>
+      <div class="card-tip">Pull with the elbows, not the hands - think about bringing your elbows to your back pockets as the bar travels down</div>
+      <div class="alt-box"><strong>Want more specificity?</strong>Sub Close-Grip Neutral Pulldown, same sets/reps - trains a grip closer to your eventual pull-up</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-crimson">3 x 10</span><span class="badge b-gold">100-140 lb</span></div>
+  </div>
+
+  <div class="phase-label ph-post"><span class="title">HORIZONTAL ROW</span><span class="budget">~16 min</span></div>
+
+  <div class="card post">
+    <div>
+      <div class="card-num">03</div>
+      <div class="card-name">Seated Cable Row</div>
+      <div class="card-detail"><strong>4 sets x 10 reps</strong><br>Wide or neutral-grip handle, knees soft, back flat. Row to your lower ribs, squeeze the shoulder blades together and hold 1 sec, then let the weight pull you into a full stretch up front before the next rep. Your mid-back thickness builder - the muscle group that's been missing from the whole program until now. <strong>Target: 120-160 lbs.</strong></div>
+      <div class="card-tip">Chest stays tall the entire rep - if you're rounding forward to reach the stretch or leaning back to finish the pull, drop the weight</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-green">4 x 10</span><span class="badge b-gold">120-160 lb</span></div>
+  </div>
+
+  <div class="card post">
+    <div>
+      <div class="card-num">04</div>
+      <div class="card-name">Single-Arm KB Row</div>
+      <div class="card-detail"><strong>3 sets x 10 each side</strong><br>Same setup as your travel-day substitute: same-side hand and knee on a bench, flat back, bell hangs straight down. Drive the elbow up and back toward your hip - not straight up to the shoulder. Squeeze at the top, full stretch on the way down. <strong>Weight: single bell, 24-32 kg (53-70 lbs).</strong></div>
+      <div class="card-tip">Elbow tight to your side the whole way - flaring it out shifts the work off the lats and onto the upper traps</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-green">3 x 10/side</span><span class="badge b-gold">24-32 kg (53-70 lbs)</span></div>
+  </div>
+
+  <div class="phase-label ph-shoulder"><span class="title">REAR DELT</span><span class="budget">~13 min</span></div>
+
+  <div class="card shoulder">
+    <div>
+      <div class="card-num">05</div>
+      <div class="card-name">Face Pull</div>
+      <div class="card-detail"><strong>3 sets x 15-20 reps</strong><br>Rope attachment at upper-chest to face height. Pull the rope apart and back toward your ears, elbows flaring out high, thumbs rotating back at the finish. <strong>This is the single most important addition on this day</strong> - it directly trains the rear delt and external rotators that every one of your presses skips entirely. <strong>Target: 30-50 lbs.</strong></div>
+      <div class="card-tip">Lead with the elbows, pull the rope apart as it comes to your face - if the elbows stay low and pinned, you've turned it into a row, not a face pull</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,60)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">60s</span>
+      </button>
+    </div>
+    <div><span class="badge b-orange">3 x 15-20</span><span class="badge b-gold">30-50 lb</span></div>
+  </div>
+
+  <div class="card shoulder">
+    <div>
+      <div class="card-num">06</div>
+      <div class="card-name">Reverse Pec-Deck Fly</div>
+      <div class="card-detail"><strong>3 sets x 15 reps</strong><br>Face into the pec-deck machine, chest against the pad, grab the handles with a slight bend in the elbows. Sweep the arms back and out, squeezing the shoulder blades together at the top, slow return. Pure rear-delt isolation - the finishing touch after face pulls. <strong>Target: 30-50 lbs.</strong></div>
+      <div class="card-tip">Keep the weight light and the movement controlled - this muscle is small and easy to cheat with momentum</div>
+      <div class="alt-box"><strong>No pec-deck?</strong>Sub Reverse Cable Fly, standing, crossing cables in front of you - same movement, same target</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,60)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">60s</span>
+      </button>
+    </div>
+    <div><span class="badge b-orange">3 x 15</span><span class="badge b-gold">30-50 lb</span></div>
+  </div>
+
+  <div class="phase-label ph-finisher"><span class="title">FINISHER</span><span class="budget">~10 min</span></div>
+
+  <div class="card finisher">
+    <div>
+      <div class="card-num">07</div>
+      <div class="card-name">Scapular Pull-Up</div>
+      <div class="card-detail"><strong>3 sets x 10 reps</strong><br>Dead hang from the bar, arms fully straight. Without bending the elbows, pull your shoulder blades down and back, lifting your body an inch or two, then release back to a dead hang. Builds the specific scapular control that's usually the real bottleneck when a full pull-up stalls. <strong>Target: bodyweight only, no assist - if you can't complete a clean set of 10, do fewer reps rather than adding a band or machine.</strong></div>
+      <div class="card-tip">Small movement, big effect - this should feel like your shoulder blades are doing all the work, arms just stay locked out</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,60)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">60s</span>
+      </button>
+    </div>
+    <div><span class="badge b-rust">3 x 10</span><span class="badge b-gold">BW</span></div>
+  </div>
+
+  <div class="card finisher">
+    <div>
+      <div class="card-num">08</div>
+      <div class="card-name">Farmer's Carry</div>
+      <div class="card-detail"><strong>3 sets, 40 yards or 30-40 sec</strong><br>One heavy kettlebell in each hand, walk tall with shoulders back and core braced - resist the bells pulling you into a hunch. <strong>Weight: 24-32 kg (53-70 lbs) per bell.</strong> Total-body finisher - grip, traps, and the same standing-plank brace you use on swings.</div>
+      <div class="card-tip">Shoulders pulled down and back the entire walk - if you're shrugging up to survive the weight, it's too heavy</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,60)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">60s</span>
+      </button>
+    </div>
+    <div><span class="badge b-rust">3 x 40yd</span><span class="badge b-gold">24-32 kg (53-70 lbs) each</span></div>
+  </div>
+
+  <div class="notes">
+    <h3>SESSION NOTES</h3>
+    <ul>
+      <li>New day built specifically to close the shoulder and back gap - the rest of the program is almost entirely front-of-body pressing</li>
+      <li>Face pull is the single highest-leverage exercise here - do not skip it even when short on time</li>
+      <li>Pull-up machine stays the priority lift - push the assist down here before anywhere else in the week</li>
+      <li>Scapular pull-up directly targets the control that's usually the real bottleneck on a full pull-up</li>
+      <li>Single-arm row: elbow tight to the side, pulling to the hip not the chest - same cue as the travel-day substitute</li>
+      <li>This day plus Core day together hit 2 vertical pulls + 2 horizontal rows per week - the target for balanced back development</li>
+      <li>Frequency: 1x per week, its own dedicated day</li>
+    </ul>
+  </div>
+
+</div>
+</div>
+
+<!-- ================= PULL & BACK (DUMBBELL) ================= -->
+<div id="view-pull-db" class="view theme-pull">
+
+<div class="header">
+  <h1>PULL &amp; <span>BACK</span></h1>
+  <p>Dumbbell &amp; Machine - No Kettlebells - 60 Min</p>
+</div>
+
+<div class="stats">
+  <div class="stat"><span class="stat-val">60</span><span class="stat-lbl">Minutes</span></div>
+  <div class="stat"><span class="stat-val">8</span><span class="stat-lbl">Exercises</span></div>
+  <div class="stat"><span class="stat-val">2</span><span class="stat-lbl">Patterns</span></div>
+  <div class="stat"><span class="stat-val">90s</span><span class="stat-lbl">Rest</span></div>
+</div>
+
+<div class="container">
+
+  <div class="phase-label ph-warm"><span class="title">WARM-UP</span><span class="budget">5 min</span></div>
+  <div class="card warm">
+    <div>
+      <div class="card-num">WARM-UP</div>
+      <div class="card-name">Assault or Rower</div>
+      <div class="card-detail"><strong>5 minutes continuous</strong><br>Easy first 2 min, build to moderate, arms actively pulling on the bike or rower handles to prime the back before loading.<br><strong>Bike target:</strong> ~45-55 calories over the 5 min.<br><strong>Rower option:</strong> target 950-1,100m over the 5 min (~2:15-2:40 / 500m), focus on the pull, not just the legs.</div>
+      <div class="card-tip">30 sec off before your first pull</div>
+    </div>
+    <div><span class="badge b-gold">5 min</span></div>
+  </div>
+
+  <div class="phase-label ph-vert"><span class="title">VERTICAL PULL</span><span class="budget">~14 min</span></div>
+
+  <div class="card">
+    <div>
+      <div class="card-num">01</div>
+      <div class="card-name">Assisted Pull-Up Machine</div>
+      <div class="card-detail"><strong>4 sets x 6-8 reps</strong><br>Same machine as Core day, but this is the priority lift for the whole week - push the assist down toward your working range here first, before Core day gets its turn. <strong>Working baseline: 30-35 lbs assist.</strong> Order sets lightest-assist-first while fresh. Full dead hang to chin over the bar every rep.</div>
+      <div class="card-tip">This is the exercise the whole day exists to support - retest your true ceiling every 2-3 weeks, fresh, not on a fatigued set</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-crimson">4 x 6-8</span><span class="badge b-gold">30-35 lb assist</span></div>
+  </div>
+
+  <div class="card">
+    <div>
+      <div class="card-num">02</div>
+      <div class="card-name">Wide-Grip Lat Pulldown</div>
+      <div class="card-detail"><strong>3 sets x 10 reps</strong><br>Wide overhand grip, hands outside shoulder width. Pull the bar to your upper chest, driving the elbows down and back - lean back slightly, do not swing. A second vertical pull that trains the same pattern as a pull-up while letting you control the exact load - useful volume that doesn't interfere with your assist-machine progress. <strong>Target: 100-140 lbs.</strong></div>
+      <div class="card-tip">Pull with the elbows, not the hands - think about bringing your elbows to your back pockets as the bar travels down</div>
+      <div class="alt-box"><strong>Want more specificity?</strong>Sub Close-Grip Neutral Pulldown, same sets/reps - trains a grip closer to your eventual pull-up</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-crimson">3 x 10</span><span class="badge b-gold">100-140 lb</span></div>
+  </div>
+
+  <div class="phase-label ph-post"><span class="title">HORIZONTAL ROW</span><span class="budget">~16 min</span></div>
+
+  <div class="card post">
+    <div>
+      <div class="card-num">03</div>
+      <div class="card-name">Seated Cable Row</div>
+      <div class="card-detail"><strong>4 sets x 10 reps</strong><br>Wide or neutral-grip handle, knees soft, back flat. Row to your lower ribs, squeeze the shoulder blades together and hold 1 sec, then let the weight pull you into a full stretch up front before the next rep. Your mid-back thickness builder - the muscle group that's been missing from the whole program until now. <strong>Target: 120-160 lbs.</strong></div>
+      <div class="card-tip">Chest stays tall the entire rep - if you're rounding forward to reach the stretch or leaning back to finish the pull, drop the weight</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-green">4 x 10</span><span class="badge b-gold">120-160 lb</span></div>
+  </div>
+
+  <div class="card post">
+    <div>
+      <div class="card-num">04</div>
+      <div class="card-name">Single-Arm DB Row</div>
+      <div class="card-detail"><strong>3 sets x 10 each side</strong><br>Same-side hand and knee on a bench, flat back, dumbbell hangs straight down. Drive the elbow up and back toward your hip - not straight up to the shoulder. Squeeze at the top, full stretch on the way down. <strong>Weight: 50-65 lbs per arm.</strong></div>
+      <div class="card-tip">Elbow tight to your side the whole way - flaring it out shifts the work off the lats and onto the upper traps</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-green">3 x 10/side</span><span class="badge b-gold">50-65 lbs</span></div>
+  </div>
+
+  <div class="phase-label ph-shoulder"><span class="title">REAR DELT</span><span class="budget">~13 min</span></div>
+
+  <div class="card shoulder">
+    <div>
+      <div class="card-num">05</div>
+      <div class="card-name">Face Pull</div>
+      <div class="card-detail"><strong>3 sets x 15-20 reps</strong><br>Rope attachment at upper-chest to face height. Pull the rope apart and back toward your ears, elbows flaring out high, thumbs rotating back at the finish. <strong>This is the single most important addition on this day</strong> - it directly trains the rear delt and external rotators that every one of your presses skips entirely. <strong>Target: 30-50 lbs.</strong></div>
+      <div class="card-tip">Lead with the elbows, pull the rope apart as it comes to your face - if the elbows stay low and pinned, you've turned it into a row, not a face pull</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,60)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">60s</span>
+      </button>
+    </div>
+    <div><span class="badge b-orange">3 x 15-20</span><span class="badge b-gold">30-50 lb</span></div>
+  </div>
+
+  <div class="card shoulder">
+    <div>
+      <div class="card-num">06</div>
+      <div class="card-name">Reverse Pec-Deck Fly</div>
+      <div class="card-detail"><strong>3 sets x 15 reps</strong><br>Face into the pec-deck machine, chest against the pad, grab the handles with a slight bend in the elbows. Sweep the arms back and out, squeezing the shoulder blades together at the top, slow return. Pure rear-delt isolation - the finishing touch after face pulls. <strong>Target: 30-50 lbs.</strong></div>
+      <div class="card-tip">Keep the weight light and the movement controlled - this muscle is small and easy to cheat with momentum</div>
+      <div class="alt-box"><strong>No pec-deck?</strong>Sub Reverse Cable Fly, standing, crossing cables in front of you - same movement, same target</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,60)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">60s</span>
+      </button>
+    </div>
+    <div><span class="badge b-orange">3 x 15</span><span class="badge b-gold">30-50 lb</span></div>
+  </div>
+
+  <div class="phase-label ph-finisher"><span class="title">FINISHER</span><span class="budget">~10 min</span></div>
+
+  <div class="card finisher">
+    <div>
+      <div class="card-num">07</div>
+      <div class="card-name">Scapular Pull-Up</div>
+      <div class="card-detail"><strong>3 sets x 10 reps</strong><br>Dead hang from the bar, arms fully straight. Without bending the elbows, pull your shoulder blades down and back, lifting your body an inch or two, then release back to a dead hang. Builds the specific scapular control that's usually the real bottleneck when a full pull-up stalls. <strong>Target: bodyweight only, no assist - if you can't complete a clean set of 10, do fewer reps rather than adding a band or machine.</strong></div>
+      <div class="card-tip">Small movement, big effect - this should feel like your shoulder blades are doing all the work, arms just stay locked out</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,60)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">60s</span>
+      </button>
+    </div>
+    <div><span class="badge b-rust">3 x 10</span><span class="badge b-gold">BW</span></div>
+  </div>
+
+  <div class="card finisher">
+    <div>
+      <div class="card-num">08</div>
+      <div class="card-name">Farmer's Carry</div>
+      <div class="card-detail"><strong>3 sets, 40 yards or 30-40 sec</strong><br>One heavy dumbbell in each hand, walk tall with shoulders back and core braced - resist the DBs pulling you into a hunch. <strong>Weight: 60-80 lbs per hand.</strong> Total-body finisher - grip, traps, and the same standing-plank brace you use on the DB swing.</div>
+      <div class="card-tip">Shoulders pulled down and back the entire walk - if you're shrugging up to survive the weight, it's too heavy</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,60)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">60s</span>
+      </button>
+    </div>
+    <div><span class="badge b-rust">3 x 40yd</span><span class="badge b-gold">60-80 lbs each</span></div>
+  </div>
+
+  <div class="notes">
+    <h3>SESSION NOTES</h3>
+    <ul>
+      <li>New day built specifically to close the shoulder and back gap - the rest of the program is almost entirely front-of-body pressing</li>
+      <li>Face pull is the single highest-leverage exercise here - do not skip it even when short on time</li>
+      <li>Pull-up machine stays the priority lift - push the assist down here before anywhere else in the week</li>
+      <li>Scapular pull-up directly targets the control that's usually the real bottleneck on a full pull-up</li>
+      <li>Single-arm row: elbow tight to the side, pulling to the hip not the chest - same cue as the travel-day substitute</li>
+      <li>This day plus Core day together hit 2 vertical pulls + 2 horizontal rows per week - the target for balanced back development</li>
+      <li>Frequency: 1x per week, its own dedicated day</li>
+    </ul>
+  </div>
+
+</div>
+</div>
+
+<script>
+var activeTimer = null;
+var ctx = null;
+var activeView = null;
+var TEST_MODE = false; // audio confirmed working across all exercises - normal 60s/90s timers restored
+
+function showView(id) {
+  document.getElementById('home').classList.remove('active');
+  var views = document.querySelectorAll('.view');
+  for (var i = 0; i < views.length; i++) views[i].classList.remove('active');
+  activeView = document.getElementById(id);
+  activeView.classList.add('active');
+  document.getElementById('stickyBar').classList.add('active');
+  window.scrollTo(0, 0);
+  updateProgress();
+}
+
+function goHome() {
+  if (activeTimer) { clearInterval(activeTimer.id); resetBtn(activeTimer.btn); activeTimer = null; }
+  var views = document.querySelectorAll('.view');
+  for (var i = 0; i < views.length; i++) views[i].classList.remove('active');
+  activeView = null;
+  document.getElementById('stickyBar').classList.remove('active');
+  document.getElementById('home').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function accentOf(view) {
+  try {
+    var a = getComputedStyle(view).getPropertyValue('--accent').trim();
+    return a || '#4aad78';
+  } catch(e) { return '#4aad78'; }
+}
+
+function updateProgress() {
+  if (!activeView) return;
+  var total = activeView.querySelectorAll('.set-box').length;
+  var done = activeView.querySelectorAll('.set-box.done').length;
+  var pct = total ? (done / total) * 100 : 0;
+  var fill = document.getElementById('pFill');
+  var count = document.getElementById('pCount');
+  fill.style.width = pct + '%';
+  count.textContent = done + ' / ' + total;
+  var col = (done === total && total > 0) ? '#d4a843' : accentOf(activeView);
+  fill.style.background = col;
+  count.style.color = col;
+}
+
+function toggleSet(box) {
+  box.classList.toggle('done');
+  updateProgress();
+}
+
+function resetActive() {
+  if (!activeView) return;
+  var boxes = activeView.querySelectorAll('.set-box.done');
+  for (var i = 0; i < boxes.length; i++) boxes[i].classList.remove('done');
+  var btns = activeView.querySelectorAll('.rest-btn');
+  for (var i = 0; i < btns.length; i++) resetBtn(btns[i]);
+  if (activeTimer) { clearInterval(activeTimer.id); activeTimer = null; }
+  updateProgress();
+}
+
+function fmt(s) {
+  if (s >= 60) return Math.floor(s/60) + ':' + (s%60 < 10 ? '0' : '') + (s%60);
+  return s + 's';
+}
+
+function resetBtn(btn) {
+  var def = parseInt(btn.getAttribute('data-default')) || 90;
+  btn.classList.remove('running','warning','done');
+  btn.querySelector('.rest-btn-label').textContent = 'START REST';
+  btn.querySelector('.rest-btn-count').textContent = fmt(def);
+}
+
+function getCtx() {
+  if (ctx && ctx.state === 'closed') { ctx = null; }
+  if (!ctx) {
+    try { ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) { return null; }
+  }
+  if (ctx.state === 'suspended') ctx.resume();
+  return ctx;
+}
+
+function note(freq, when, dur, vol) {
+  var c = getCtx();
+  if (!c) return;
+  try {
+    var o = c.createOscillator();
+    var g = c.createGain();
+    o.connect(g); g.connect(c.destination);
+    o.type = 'sine'; o.frequency.value = freq;
+    g.gain.setValueAtTime(vol, when);
+    g.gain.exponentialRampToValueAtTime(0.001, when + dur);
+    o.start(when); o.stop(when + dur + 0.05);
+  } catch(e) {}
+}
+
+function beep() {
+  var c = getCtx(); if (!c) return;
+  note(880, c.currentTime, 0.12, 0.5);
+}
+
+function chime() {
+  var c = getCtx(); if (!c) return;
+  var t = c.currentTime;
+  note(523, t, 0.4, 0.5);
+  note(659, t + 0.18, 0.4, 0.5);
+  note(784, t + 0.36, 0.7, 0.6);
+}
+
+function startRest(btn, seconds) {
+  if (TEST_MODE) seconds = 3;
+  var c = getCtx();
+  if (c) {
+    try {
+      var buf = c.createBuffer(1,1,22050);
+      var src = c.createBufferSource();
+      src.buffer = buf; src.connect(c.destination); src.start(0);
+    } catch(e) {}
+  }
+  if (!btn.getAttribute('data-default')) btn.setAttribute('data-default', seconds);
+  if (btn.classList.contains('running') || btn.classList.contains('warning')) {
+    if (activeTimer) { clearInterval(activeTimer.id); activeTimer = null; }
+    resetBtn(btn);
+    return;
+  }
+  if (activeTimer) {
+    clearInterval(activeTimer.id);
+    resetBtn(activeTimer.btn);
+    activeTimer = null;
+  }
+  var startMs = Date.now();
+  var totalMs = seconds * 1000;
+  var lastSec = seconds;
+  var beeped = {};
+  btn.classList.remove('done');
+  btn.classList.add('running');
+  btn.querySelector('.rest-btn-label').textContent = 'RESTING...';
+  btn.querySelector('.rest-btn-count').textContent = fmt(seconds);
+  var id = setInterval(function() {
+    var remaining = Math.max(0, Math.ceil((totalMs - (Date.now() - startMs)) / 1000));
+    if (remaining === lastSec) return;
+    lastSec = remaining;
+    if (remaining <= 3 && remaining >= 1 && !beeped[remaining]) {
+      beeped[remaining] = true;
+      beep();
+    }
+    if (remaining <= 0) {
+      clearInterval(id);
+      activeTimer = null;
+      btn.classList.remove('running','warning');
+      btn.classList.add('done');
+      btn.querySelector('.rest-btn-label').textContent = 'REST DONE - GO!';
+      btn.querySelector('.rest-btn-count').textContent = 'GO';
+      if (navigator.vibrate) navigator.vibrate([150,80,150,80,300]);
+      chime();
+      setTimeout(function() { resetBtn(btn); }, 4000);
+      return;
+    }
+    if (remaining <= 20) {
+      btn.classList.remove('running');
+      btn.classList.add('warning');
+    }
+    btn.querySelector('.rest-btn-count').textContent = fmt(remaining);
+  }, 250);
+  activeTimer = { btn: btn, id: id };
+}
+</script>
+</body>
+</html>
