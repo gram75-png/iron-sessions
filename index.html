@@ -94,11 +94,13 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
 .cat-head .cat-name { font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:4px; white-space:nowrap; }
 .cat-head.cat-kb .cat-name { color:var(--gold); }
 .cat-head.cat-db .cat-name { color:var(--blue-light); }
+.cat-head.cat-add .cat-name { color:var(--purple); }
 .cat-head::after { content:''; flex:1; height:1px; background:var(--steel); }
 .cat-head .cat-count { font-family:'Bebas Neue',sans-serif; font-size:11px; letter-spacing:2px; color:#444; }
 .equip-tag { display:inline-block; font-family:'Bebas Neue',sans-serif; font-size:10px; letter-spacing:2px; padding:2px 8px; border-radius:2px; margin-bottom:6px; }
 .equip-tag.t-kb { background:#2a2100; color:var(--gold); }
 .equip-tag.t-db { background:#0d1a2a; color:var(--blue-light); }
+.equip-tag.t-add { background:#1a1230; color:var(--purple); }
 .home-note-inner { background:#111; border:1px solid #222; border-left:3px solid var(--gold); border-radius:2px; padding:14px 16px; font-size:11px; color:#777; line-height:1.8; }
 .home-note-inner strong { color:var(--gold); font-size:10px; letter-spacing:2px; text-transform:uppercase; display:block; margin-bottom:4px; }
 
@@ -269,7 +271,41 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
   </div>
   <div class="menu-wrap">
 
-    <div class="cat-head cat-kb"><span class="cat-name">KETTLEBELL SERIES</span><span class="cat-count">Home gym</span></div>
+    <div class="cat-head cat-db"><span class="cat-name">DUMBBELL SERIES</span><span class="cat-count">No-kettlebell gym</span></div>
+    <button class="menu-card m-core" onclick="showView('view-core-db')">
+      <div>
+        <span class="equip-tag t-db">DB</span>
+        <div class="menu-title">TRUNK &amp; <span>CORE</span></div>
+        <div class="menu-sub">Anti-Rotation - Flexion - Posterior - DB Power</div>
+      </div>
+      <div class="menu-meta"><span class="mm-big">7</span><span class="mm-small">Exercises</span></div>
+    </button>
+    <button class="menu-card m-push" onclick="showView('view-push-db')">
+      <div>
+        <span class="equip-tag t-db">DB</span>
+        <div class="menu-title">PUSH &amp; <span>PRESS</span></div>
+        <div class="menu-sub">Dumbbell &amp; Machine - No Kettlebells</div>
+      </div>
+      <div class="menu-meta"><span class="mm-big">8</span><span class="mm-small">Exercises</span></div>
+    </button>
+    <button class="menu-card m-legs" onclick="showView('view-legs-db')">
+      <div>
+        <span class="equip-tag t-db">DB</span>
+        <div class="menu-title">LEGS &amp; <span>POWER</span></div>
+        <div class="menu-sub">Dumbbell Compounds Then Machine Room</div>
+      </div>
+      <div class="menu-meta"><span class="mm-big">8</span><span class="mm-small">Exercises</span></div>
+    </button>
+    <button class="menu-card m-pull" onclick="showView('view-pull-db')">
+      <div>
+        <span class="equip-tag t-db">DB</span>
+        <div class="menu-title">PULL &amp; <span>BACK</span></div>
+        <div class="menu-sub">Vertical Pull - Row - Rear Delt</div>
+      </div>
+      <div class="menu-meta"><span class="mm-big">8</span><span class="mm-small">Exercises</span></div>
+    </button>
+
+    <div class="cat-head cat-kb" style="margin-top:28px;"><span class="cat-name">KETTLEBELL SERIES</span><span class="cat-count">Home gym</span></div>
     <button class="menu-card m-core" onclick="showView('view-core')">
       <div>
         <span class="equip-tag t-kb">KB</span>
@@ -303,38 +339,14 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
       <div class="menu-meta"><span class="mm-big">8</span><span class="mm-small">Exercises</span></div>
     </button>
 
-    <div class="cat-head cat-db" style="margin-top:28px;"><span class="cat-name">DUMBBELL SERIES</span><span class="cat-count">No-kettlebell gym</span></div>
-    <button class="menu-card m-core" onclick="showView('view-core-db')">
+    <div class="cat-head cat-add" style="margin-top:28px;"><span class="cat-name">ADD-ONS</span><span class="cat-count">Attach to another day</span></div>
+    <button class="menu-card m-core" onclick="showView('view-core-finisher')">
       <div>
-        <span class="equip-tag t-db">DB</span>
-        <div class="menu-title">TRUNK &amp; <span>CORE</span></div>
-        <div class="menu-sub">Anti-Rotation - Flexion - Posterior - DB Power</div>
+        <span class="equip-tag t-add">ADD-ON</span>
+        <div class="menu-title">CORE <span>FINISHER</span></div>
+        <div class="menu-sub">Pallof - Candlestick - Bird Dog - Attach After Push</div>
       </div>
-      <div class="menu-meta"><span class="mm-big">7</span><span class="mm-small">Exercises</span></div>
-    </button>
-    <button class="menu-card m-push" onclick="showView('view-push-db')">
-      <div>
-        <span class="equip-tag t-db">DB</span>
-        <div class="menu-title">PUSH &amp; <span>PRESS</span></div>
-        <div class="menu-sub">Dumbbell &amp; Machine - No Kettlebells</div>
-      </div>
-      <div class="menu-meta"><span class="mm-big">8</span><span class="mm-small">Exercises</span></div>
-    </button>
-    <button class="menu-card m-legs" onclick="showView('view-legs-db')">
-      <div>
-        <span class="equip-tag t-db">DB</span>
-        <div class="menu-title">LEGS &amp; <span>POWER</span></div>
-        <div class="menu-sub">Dumbbell Compounds Then Machine Room</div>
-      </div>
-      <div class="menu-meta"><span class="mm-big">8</span><span class="mm-small">Exercises</span></div>
-    </button>
-    <button class="menu-card m-pull" onclick="showView('view-pull-db')">
-      <div>
-        <span class="equip-tag t-db">DB</span>
-        <div class="menu-title">PULL &amp; <span>BACK</span></div>
-        <div class="menu-sub">Vertical Pull - Row - Rear Delt</div>
-      </div>
-      <div class="menu-meta"><span class="mm-big">8</span><span class="mm-small">Exercises</span></div>
+      <div class="menu-meta"><span class="mm-big">3</span><span class="mm-small">Exercises</span></div>
     </button>
 
     <div class="home-note">
@@ -604,7 +616,7 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
     <div>
       <div class="card-num">01</div>
       <div class="card-name">Incline Plate-Loaded Press</div>
-      <div class="card-detail"><strong>4 sets x 8-10 reps</strong><br>Set the seat so the handles line up around your upper chest / collarbone. Press to near-full extension without locking the elbows hard, lower under control until you feel a stretch across the pecs. <strong>Target: 90-135 lbs per side. Go heavy - this is your main chest builder now.</strong> The incline angle biases the upper chest, and independent arms stop your strong side taking over. No balancing demand means you can push close to failure safely.</div>
+      <div class="card-detail"><strong>4 sets x 8-10 reps</strong><br>Set the seat so the handles line up around your upper chest / collarbone. Press to near-full extension without locking the elbows hard, lower under control until you feel a stretch across the pecs. <strong>Target: 140-180 lbs of plates total. Currently 45 + 25 lb per side (140 total) - build toward 45 + 45 lb per side (180 total) as you progress. Plus the machine's own base resistance either way - this is your main chest builder now.</strong> The incline angle biases the upper chest, and independent arms stop your strong side taking over. No balancing demand means you can push close to failure safely.</div>
       <div class="card-tip">Handles at upper-chest height - if one arm lags, match the weaker side and let the stronger one catch up over time</div>
       <div class="alt-box"><strong>Progression:</strong>Add a plate per side whenever you hit the top of the rep range with clean form - track it so each side stays balanced</div>
       <div class="set-tracker">
@@ -619,7 +631,7 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
         <span class="rest-btn-count">90s</span>
       </button>
     </div>
-    <div><span class="badge b-blue">4 x 8-10</span><span class="badge b-gold">90-135 lb/side</span></div>
+    <div><span class="badge b-blue">4 x 8-10</span><span class="badge b-gold">140-180 lb total</span></div>
   </div>
 
   <div class="card">
@@ -1284,7 +1296,7 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
     <div>
       <div class="card-num">01</div>
       <div class="card-name">Incline Plate-Loaded Press</div>
-      <div class="card-detail"><strong>4 sets x 8-10 reps</strong><br>Set the seat so the handles line up around your upper chest / collarbone. Press to near-full extension without locking the elbows hard, lower under control until you feel a stretch across the pecs. <strong>Target: 90-135 lbs per side. Go heavy - this is your main chest builder now.</strong> The incline angle biases the upper chest, and independent arms stop your strong side taking over. No balancing demand means you can push close to failure safely.</div>
+      <div class="card-detail"><strong>4 sets x 8-10 reps</strong><br>Set the seat so the handles line up around your upper chest / collarbone. Press to near-full extension without locking the elbows hard, lower under control until you feel a stretch across the pecs. <strong>Target: 140-180 lbs of plates total. Currently 45 + 25 lb per side (140 total) - build toward 45 + 45 lb per side (180 total) as you progress. Plus the machine's own base resistance either way - this is your main chest builder now.</strong> The incline angle biases the upper chest, and independent arms stop your strong side taking over. No balancing demand means you can push close to failure safely.</div>
       <div class="card-tip">Handles at upper-chest height - if one arm lags, match the weaker side and let the stronger one catch up over time</div>
       <div class="alt-box"><strong>Progression:</strong>Add a plate per side whenever you hit the top of the rep range with clean form - track it so each side stays balanced</div>
       <div class="set-tracker">
@@ -1299,7 +1311,7 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
         <span class="rest-btn-count">90s</span>
       </button>
     </div>
-    <div><span class="badge b-blue">4 x 8-10</span><span class="badge b-gold">90-135 lb/side</span></div>
+    <div><span class="badge b-blue">4 x 8-10</span><span class="badge b-gold">140-180 lb total</span></div>
   </div>
 
   <div class="card">
@@ -2130,6 +2142,107 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
       <li>This day plus Core day together hit 2 vertical pulls + 2 horizontal rows per week - the target for balanced back development</li>
       <li>Frequency: 1x per week, its own dedicated day</li>
     </ul>
+  </div>
+
+</div>
+</div>
+
+
+<!-- ================= CORE FINISHER (ADD-ON) ================= -->
+<div id="view-core-finisher" class="view theme-core">
+
+<div class="header">
+  <h1>CORE <span>FINISHER</span></h1>
+  <p>Pallof - Candlestick - Bird Dog - 15 Min</p>
+</div>
+
+<div class="stats">
+  <div class="stat"><span class="stat-val">15</span><span class="stat-lbl">Minutes</span></div>
+  <div class="stat"><span class="stat-val">3</span><span class="stat-lbl">Exercises</span></div>
+  <div class="stat"><span class="stat-val">2x</span><span class="stat-lbl">Per Week</span></div>
+  <div class="stat"><span class="stat-val">90s</span><span class="stat-lbl">Rest</span></div>
+</div>
+
+<div class="notes" style="max-width:680px; margin:24px auto 0; padding:20px;">
+  <h3>WHEN TO RUN THIS</h3>
+  <ul>
+    <li>Attach to the end of a Push day - you're already warm, no separate warm-up needed here</li>
+    <li>Gives Core a second weekly touch without a full 4th day or a 7-day week</li>
+    <li>Deliberately leaves out Swing, Pull-Through, and RDL - Legs already covers hip-hinge work twice a week, and stacking hinge patterns back-to-back is exactly what flared your back before</li>
+  </ul>
+</div>
+
+<div class="container">
+
+  <div class="phase-label ph-anti"><span class="title">ANTI-ROTATION</span><span class="budget">~5 min</span></div>
+
+  <div class="card anti">
+    <div>
+      <div class="card-num">01</div>
+      <div class="card-name">Pallof Press</div>
+      <div class="card-detail"><strong>3 sets x 10 reps each side</strong><br>Low cable pulley at chest height, or a band anchored to a rack. Stand side-on, hold with both hands at chest, press straight out, hold 2 sec, return. Obliques resist the rotation entirely. <strong>Target: 25-40 lbs on a low cable pulley - if using a band, go medium-to-heavy tension.</strong></div>
+      <div class="card-tip">Further from anchor = harder. Own the position before adding distance.</div>
+      <div class="alt-box"><strong>No anchor? Alternative:</strong>Half-kneeling KB halo, slow, 3 x 8 each direction</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-purple">3 x 10/side</span><span class="badge b-purple">25-40 lb</span></div>
+  </div>
+
+  <div class="phase-label ph-flex"><span class="title">FLEXION</span><span class="budget">~5 min</span></div>
+
+  <div class="card flex">
+    <div>
+      <div class="card-num">02</div>
+      <div class="card-name">Lying Leg Raise to Candlestick</div>
+      <div class="card-detail"><strong>4 sets x 10-12 reps</strong><br>Lie flat on your back, hands by your sides or tucked under your lower back. Raise straight legs to vertical, then at the top drive the pelvis off the floor so your legs point straight up at the ceiling (the candlestick). Slow, controlled lower - do not let the lower back arch off the floor on the way down. <strong>Target: bodyweight - no added load here, progress by owning full control at 4x12 before adding reps.</strong></div>
+      <div class="card-tip">The pelvis lift at the very top is the whole point - that final curl of the hips off the floor is where the lower abs actually fire</div>
+      <div class="alt-box"><strong>Lower back flare-up?</strong>Skip the pelvis lift and any loaded flexion entirely until pain-free. A gentle Dead Bug (opposite arm/leg reach, low back pressed flat) is a safer core option in the meantime</div>
+      <div class="alt-box"><strong>Too hard?</strong>Drop the hip lift and do plain lying leg raises with the back glued to the floor - add the pelvis lift back in once those feel easy, or bend the knees to shorten the lever</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-red">4 x 10-12</span><span class="badge b-gold">BW</span></div>
+  </div>
+
+  <div class="phase-label ph-post"><span class="title">POSTERIOR CHAIN</span><span class="budget">~5 min</span></div>
+
+  <div class="card post">
+    <div>
+      <div class="card-num">03</div>
+      <div class="card-name">Bird Dog</div>
+      <div class="card-detail"><strong>3 sets x 10 each side</strong><br>On all fours, extend opposite arm and leg. Hold 3 sec at full extension before returning. Hits the erectors and deep stabilisers hard when done right. <strong>Target: bodyweight - add a light-to-medium band (see below) once controlled bodyweight reps feel easy.</strong></div>
+      <div class="card-tip">Think reach long not lift high - length activates the erectors</div>
+      <div class="alt-box"><strong>Want more load?</strong>Loop a thin resistance band around the extended foot and the opposite hand - the band pulls back as you reach, adding resistance right at full extension where it counts</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-green">3 x 10/side</span><span class="badge b-green">BW</span></div>
   </div>
 
 </div>
