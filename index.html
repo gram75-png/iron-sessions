@@ -2254,6 +2254,21 @@ var ctx = null;
 var activeView = null;
 var TEST_MODE = true; // TEMP: forcing 3s timers to retest intermittent chime
 
+var dbgEl = null;
+function dbg(msg) {
+  if (!TEST_MODE) return;
+  if (!dbgEl) {
+    dbgEl = document.createElement('div');
+    dbgEl.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#000;color:#0f0;font:11px/1.4 monospace;padding:8px;z-index:99999;white-space:pre-wrap;max-height:35vh;overflow:auto;border-top:2px solid #0f0;';
+    document.body.appendChild(dbgEl);
+  }
+  var line = document.createElement('div');
+  line.textContent = new Date().toISOString().slice(11,23) + ' ' + msg;
+  dbgEl.appendChild(line);
+  dbgEl.scrollTop = dbgEl.scrollHeight;
+  while (dbgEl.children.length > 40) dbgEl.removeChild(dbgEl.firstChild);
+}
+
 function showView(id) {
   document.getElementById('home').classList.remove('active');
   var views = document.querySelectorAll('.view');
@@ -2324,17 +2339,24 @@ function resetBtn(btn) {
 }
 
 function getCtx() {
-  if (ctx && ctx.state === 'closed') { ctx = null; }
+  if (ctx && ctx.state === 'closed') { ctx = null; dbg('ctx was closed, clearing'); }
   if (!ctx) {
-    try { ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) { return null; }
+    try {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      dbg('ctx created, state=' + ctx.state + ' sr=' + ctx.sampleRate);
+    } catch(e) { dbg('ctx CREATE FAILED: ' + e.message); return null; }
   }
-  if (ctx.state === 'suspended') ctx.resume();
+  if (ctx.state === 'suspended') {
+    dbg('ctx suspended, calling resume()');
+    ctx.resume().then(function(){ dbg('resume() resolved, state=' + ctx.state); })
+      .catch(function(e){ dbg('resume() REJECTED: ' + e.message); });
+  }
   return ctx;
 }
 
 function note(freq, when, dur, vol) {
   var c = getCtx();
-  if (!c) return;
+  if (!c) { dbg('note(' + freq + ') aborted: no ctx'); return; }
   try {
     var o = c.createOscillator();
     var g = c.createGain();
@@ -2343,15 +2365,18 @@ function note(freq, when, dur, vol) {
     g.gain.setValueAtTime(vol, when);
     g.gain.exponentialRampToValueAtTime(0.001, when + dur);
     o.start(when); o.stop(when + dur + 0.05);
-  } catch(e) {}
+    dbg('note(' + freq + ') scheduled at t=' + when.toFixed(2) + ' ctxState=' + c.state);
+  } catch(e) { dbg('note(' + freq + ') THREW: ' + e.message); }
 }
 
 function beep() {
+  dbg('beep() called');
   var c = getCtx(); if (!c) return;
   note(880, c.currentTime, 0.12, 0.5);
 }
 
 function chime() {
+  dbg('chime() called');
   var c = getCtx(); if (!c) return;
   var t = c.currentTime;
   note(523, t, 0.4, 0.5);
@@ -2360,6 +2385,7 @@ function chime() {
 }
 
 function startRest(btn, seconds) {
+  dbg('startRest() tapped, seconds=' + seconds);
   if (TEST_MODE) seconds = 3;
   var c = getCtx();
   if (c) {
@@ -2367,7 +2393,10 @@ function startRest(btn, seconds) {
       var buf = c.createBuffer(1,1,22050);
       var src = c.createBufferSource();
       src.buffer = buf; src.connect(c.destination); src.start(0);
-    } catch(e) {}
+      dbg('unlock buffer started ok, ctxState=' + c.state);
+    } catch(e) { dbg('unlock buffer THREW: ' + e.message); }
+  } else {
+    dbg('no ctx available for unlock buffer');
   }
   if (!btn.getAttribute('data-default')) btn.setAttribute('data-default', seconds);
   if (btn.classList.contains('running') || btn.classList.contains('warning')) {
