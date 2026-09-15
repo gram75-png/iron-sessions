@@ -267,7 +267,7 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
 <div id="home" class="active">
   <div class="home-header">
     <h1>IRON <span>SESSIONS</span></h1>
-    <p>Pick Your Session - 60 Min Each</p>
+    <p>Pick Your Session - 60-75 Min</p>
   </div>
   <div class="menu-wrap">
 
@@ -286,7 +286,7 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
         <div class="menu-title">PUSH &amp; <span>PRESS</span></div>
         <div class="menu-sub">Dumbbell &amp; Machine - No Kettlebells</div>
       </div>
-      <div class="menu-meta"><span class="mm-big">8</span><span class="mm-small">Exercises</span></div>
+      <div class="menu-meta"><span class="mm-big">11</span><span class="mm-small">Exercises</span></div>
     </button>
     <button class="menu-card m-legs" onclick="showView('view-legs-db')">
       <div>
@@ -320,7 +320,7 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
         <div class="menu-title">PUSH &amp; <span>PRESS</span></div>
         <div class="menu-sub">Chest - Shoulders - Arms - KB Focus</div>
       </div>
-      <div class="menu-meta"><span class="mm-big">8</span><span class="mm-small">Exercises</span></div>
+      <div class="menu-meta"><span class="mm-big">11</span><span class="mm-small">Exercises</span></div>
     </button>
     <button class="menu-card m-legs" onclick="showView('view-legs')">
       <div>
@@ -337,16 +337,6 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
         <div class="menu-sub">Vertical Pull - Row - Rear Delt</div>
       </div>
       <div class="menu-meta"><span class="mm-big">8</span><span class="mm-small">Exercises</span></div>
-    </button>
-
-    <div class="cat-head cat-add" style="margin-top:28px;"><span class="cat-name">ADD-ONS</span><span class="cat-count">Attach to another day</span></div>
-    <button class="menu-card m-core" onclick="showView('view-core-finisher')">
-      <div>
-        <span class="equip-tag t-add">ADD-ON</span>
-        <div class="menu-title">CORE <span>FINISHER</span></div>
-        <div class="menu-sub">Pallof - Candlestick - Bird Dog - Attach After Push</div>
-      </div>
-      <div class="menu-meta"><span class="mm-big">3</span><span class="mm-small">Exercises</span></div>
     </button>
 
     <div class="home-note">
@@ -562,12 +552,12 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
 
 <div class="header">
   <h1>PUSH &amp; <span>PRESS</span></h1>
-  <p>Chest - Shoulders - Arms - KB Focus - 60 Min</p>
+  <p>Chest - Shoulders - Arms - KB Focus - 75 Min</p>
 </div>
 
 <div class="stats">
-  <div class="stat"><span class="stat-val">60</span><span class="stat-lbl">Minutes</span></div>
-  <div class="stat"><span class="stat-val">8</span><span class="stat-lbl">Exercises</span></div>
+  <div class="stat"><span class="stat-val">75</span><span class="stat-lbl">Minutes</span></div>
+  <div class="stat"><span class="stat-val">11</span><span class="stat-lbl">Exercises</span></div>
   <div class="stat"><span class="stat-val">3</span><span class="stat-lbl">Muscle Groups</span></div>
   <div class="stat"><span class="stat-val">90s</span><span class="stat-lbl">Rest</span></div>
 </div>
@@ -779,9 +769,76 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
     <div><span class="badge b-rust">3 x 10</span><span class="badge b-gold">12-16 kg (26-35 lbs) each</span></div>
   </div>
 
+  <div class="phase-label ph-finisher"><span class="title">CORE FINISHER</span><span class="budget">~15 min</span></div>
+
+  <div class="card anti">
+    <div>
+      <div class="card-num">09</div>
+      <div class="card-name">Pallof Press</div>
+      <div class="card-detail"><strong>3 sets x 10 reps each side</strong><br>Low cable pulley at chest height, or a band anchored to a rack. Stand side-on, hold with both hands at chest, press straight out, hold 2 sec, return. Obliques resist the rotation entirely. <strong>Target: 25-40 lbs on a low cable pulley - if using a band, go medium-to-heavy tension.</strong></div>
+      <div class="card-tip">Further from anchor = harder. Own the position before adding distance.</div>
+      <div class="alt-box"><strong>No anchor? Alternative:</strong>Half-kneeling KB halo, slow, 3 x 8 each direction</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-purple">3 x 10/side</span><span class="badge b-purple">25-40 lb</span></div>
+  </div>
+
+  <div class="card flex">
+    <div>
+      <div class="card-num">10</div>
+      <div class="card-name">Lying Leg Raise to Candlestick</div>
+      <div class="card-detail"><strong>4 sets x 10-12 reps</strong><br>Lie flat on your back, hands by your sides or tucked under your lower back. Raise straight legs to vertical, then at the top drive the pelvis off the floor so your legs point straight up at the ceiling (the candlestick). Slow, controlled lower - do not let the lower back arch off the floor on the way down. <strong>Target: bodyweight - no added load here, progress by owning full control at 4x12 before adding reps.</strong></div>
+      <div class="card-tip">The pelvis lift at the very top is the whole point - that final curl of the hips off the floor is where the lower abs actually fire</div>
+      <div class="alt-box"><strong>Too hard?</strong>Drop the hip lift and do plain lying leg raises with the back glued to the floor - add the pelvis lift back in once those feel easy, or bend the knees to shorten the lever</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-red">4 x 10-12</span><span class="badge b-gold">BW</span></div>
+  </div>
+
+  <div class="card post">
+    <div>
+      <div class="card-num">11</div>
+      <div class="card-name">Bird Dog</div>
+      <div class="card-detail"><strong>3 sets x 10 each side</strong><br>On all fours, extend opposite arm and leg. Hold 3 sec at full extension before returning. Hits the erectors and deep stabilisers hard when done right. <strong>Target: bodyweight - add a light-to-medium band (see below) once controlled bodyweight reps feel easy.</strong></div>
+      <div class="card-tip">Think reach long not lift high - length activates the erectors</div>
+      <div class="alt-box"><strong>Want more load?</strong>Loop a thin resistance band around the extended foot and the opposite hand - the band pulls back as you reach, adding resistance right at full extension where it counts</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-green">3 x 10/side</span><span class="badge b-green">BW</span></div>
+  </div>
+
   <div class="notes">
     <h3>SESSION NOTES</h3>
     <ul>
+      <li>Core Finisher (Pallof, Candlestick, Bird Dog) is now built into the end of this session - no separate add-on day needed</li>
       <li>Incline plate-loaded press: biases upper chest - load each side evenly and add a plate when you hit the top of the rep range with clean form</li>
       <li>Single-arm press: if you are swaying to one side significantly, drop the weight - the lean means the load is too heavy</li>
       <li>Cable lateral raise: go light and strict - the cable holds tension at the bottom, so it will feel harder than a dumbbell at the same weight. Cross the cable in front to load the bottom of the range</li>
@@ -1237,12 +1294,12 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
 
 <div class="header">
   <h1>PUSH &amp; <span>PRESS</span></h1>
-  <p>Dumbbell &amp; Machine - No Kettlebells - 60 Min</p>
+  <p>Dumbbell &amp; Machine - No Kettlebells - 75 Min</p>
 </div>
 
 <div class="stats">
-  <div class="stat"><span class="stat-val">60</span><span class="stat-lbl">Minutes</span></div>
-  <div class="stat"><span class="stat-val">8</span><span class="stat-lbl">Exercises</span></div>
+  <div class="stat"><span class="stat-val">75</span><span class="stat-lbl">Minutes</span></div>
+  <div class="stat"><span class="stat-val">11</span><span class="stat-lbl">Exercises</span></div>
   <div class="stat"><span class="stat-val">3</span><span class="stat-lbl">Muscle Groups</span></div>
   <div class="stat"><span class="stat-val">90s</span><span class="stat-lbl">Rest</span></div>
 </div>
@@ -1454,9 +1511,76 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
     <div><span class="badge b-rust">3 x 10</span><span class="badge b-gold">25-35 lbs each</span></div>
   </div>
 
+  <div class="phase-label ph-finisher"><span class="title">CORE FINISHER</span><span class="budget">~15 min</span></div>
+
+  <div class="card anti">
+    <div>
+      <div class="card-num">09</div>
+      <div class="card-name">Pallof Press</div>
+      <div class="card-detail"><strong>3 sets x 10 reps each side</strong><br>Low cable pulley at chest height, or a band anchored to a rack. Stand side-on, hold with both hands at chest, press straight out, hold 2 sec, return. Obliques resist the rotation entirely. <strong>Target: 25-40 lbs on a low cable pulley - if using a band, go medium-to-heavy tension.</strong></div>
+      <div class="card-tip">Further from anchor = harder. Own the position before adding distance.</div>
+      <div class="alt-box"><strong>No anchor? Alternative:</strong>Half-kneeling DB halo, slow, 3 x 8 each direction</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-purple">3 x 10/side</span><span class="badge b-purple">25-40 lb</span></div>
+  </div>
+
+  <div class="card flex">
+    <div>
+      <div class="card-num">10</div>
+      <div class="card-name">Lying Leg Raise to Candlestick</div>
+      <div class="card-detail"><strong>4 sets x 10-12 reps</strong><br>Lie flat on your back, hands by your sides or tucked under your lower back. Raise straight legs to vertical, then at the top drive the pelvis off the floor so your legs point straight up at the ceiling (the candlestick). Slow, controlled lower - do not let the lower back arch off the floor on the way down. <strong>Target: bodyweight - no added load here, progress by owning full control at 4x12 before adding reps.</strong></div>
+      <div class="card-tip">The pelvis lift at the very top is the whole point - that final curl of the hips off the floor is where the lower abs actually fire</div>
+      <div class="alt-box"><strong>Too hard?</strong>Drop the hip lift and do plain lying leg raises with the back glued to the floor - add the pelvis lift back in once those feel easy, or bend the knees to shorten the lever</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-red">4 x 10-12</span><span class="badge b-gold">BW</span></div>
+  </div>
+
+  <div class="card post">
+    <div>
+      <div class="card-num">11</div>
+      <div class="card-name">Bird Dog</div>
+      <div class="card-detail"><strong>3 sets x 10 each side</strong><br>On all fours, extend opposite arm and leg. Hold 3 sec at full extension before returning. Hits the erectors and deep stabilisers hard when done right. <strong>Target: bodyweight - add a light-to-medium band (see below) once controlled bodyweight reps feel easy.</strong></div>
+      <div class="card-tip">Think reach long not lift high - length activates the erectors</div>
+      <div class="alt-box"><strong>Want more load?</strong>Loop a thin resistance band around the extended foot and the opposite hand - the band pulls back as you reach, adding resistance right at full extension where it counts</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,90)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">90s</span>
+      </button>
+    </div>
+    <div><span class="badge b-green">3 x 10/side</span><span class="badge b-green">BW</span></div>
+  </div>
+
   <div class="notes">
     <h3>SESSION NOTES</h3>
     <ul>
+      <li>Core Finisher (Pallof, Candlestick, Bird Dog) is now built into the end of this session - no separate add-on day needed</li>
       <li>Dumbbell version - your no-kettlebell gym build, same shape as the KB push day</li>
       <li>Incline plate-loaded press: your main chest builder - load each side evenly and add a plate when you hit the top of the rep range</li>
       <li>Single-arm press: if you are swaying to one side significantly, drop the weight - the lean means the load is too heavy</li>
@@ -2132,106 +2256,6 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
       <li>This day plus Core day together hit 2 vertical pulls + 2 horizontal rows per week - the target for balanced back development</li>
       <li>Frequency: 1x per week, its own dedicated day</li>
     </ul>
-  </div>
-
-</div>
-</div>
-
-
-<!-- ================= CORE FINISHER (ADD-ON) ================= -->
-<div id="view-core-finisher" class="view theme-core">
-
-<div class="header">
-  <h1>CORE <span>FINISHER</span></h1>
-  <p>Pallof - Candlestick - Bird Dog - 15 Min</p>
-</div>
-
-<div class="stats">
-  <div class="stat"><span class="stat-val">15</span><span class="stat-lbl">Minutes</span></div>
-  <div class="stat"><span class="stat-val">3</span><span class="stat-lbl">Exercises</span></div>
-  <div class="stat"><span class="stat-val">2x</span><span class="stat-lbl">Per Week</span></div>
-  <div class="stat"><span class="stat-val">90s</span><span class="stat-lbl">Rest</span></div>
-</div>
-
-<div class="notes" style="max-width:680px; margin:24px auto 0; padding:20px;">
-  <h3>WHEN TO RUN THIS</h3>
-  <ul>
-    <li>Attach to the end of a Push day - you're already warm, no separate warm-up needed here</li>
-    <li>Gives Core a second weekly touch without a full 4th day or a 7-day week</li>
-    <li>Deliberately leaves out Swing, Pull-Through, and RDL - Legs already covers hip-hinge work twice a week, and stacking hinge patterns back-to-back is exactly what flared your back before</li>
-  </ul>
-</div>
-
-<div class="container">
-
-  <div class="phase-label ph-anti"><span class="title">ANTI-ROTATION</span><span class="budget">~5 min</span></div>
-
-  <div class="card anti">
-    <div>
-      <div class="card-num">01</div>
-      <div class="card-name">Pallof Press</div>
-      <div class="card-detail"><strong>3 sets x 10 reps each side</strong><br>Low cable pulley at chest height, or a band anchored to a rack. Stand side-on, hold with both hands at chest, press straight out, hold 2 sec, return. Obliques resist the rotation entirely. <strong>Target: 25-40 lbs on a low cable pulley - if using a band, go medium-to-heavy tension.</strong></div>
-      <div class="card-tip">Further from anchor = harder. Own the position before adding distance.</div>
-      <div class="alt-box"><strong>No anchor? Alternative:</strong>Half-kneeling KB halo, slow, 3 x 8 each direction</div>
-      <div class="set-tracker">
-        <span class="set-lbl">SETS</span>
-        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
-        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
-        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
-      </div>
-      <button class="rest-btn" onclick="startRest(this,90)">
-        <span class="rest-btn-label">START REST</span>
-        <span class="rest-btn-count">90s</span>
-      </button>
-    </div>
-    <div><span class="badge b-purple">3 x 10/side</span><span class="badge b-purple">25-40 lb</span></div>
-  </div>
-
-  <div class="phase-label ph-flex"><span class="title">FLEXION</span><span class="budget">~5 min</span></div>
-
-  <div class="card flex">
-    <div>
-      <div class="card-num">02</div>
-      <div class="card-name">Lying Leg Raise to Candlestick</div>
-      <div class="card-detail"><strong>4 sets x 10-12 reps</strong><br>Lie flat on your back, hands by your sides or tucked under your lower back. Raise straight legs to vertical, then at the top drive the pelvis off the floor so your legs point straight up at the ceiling (the candlestick). Slow, controlled lower - do not let the lower back arch off the floor on the way down. <strong>Target: bodyweight - no added load here, progress by owning full control at 4x12 before adding reps.</strong></div>
-      <div class="card-tip">The pelvis lift at the very top is the whole point - that final curl of the hips off the floor is where the lower abs actually fire</div>
-      <div class="alt-box"><strong>Too hard?</strong>Drop the hip lift and do plain lying leg raises with the back glued to the floor - add the pelvis lift back in once those feel easy, or bend the knees to shorten the lever</div>
-      <div class="set-tracker">
-        <span class="set-lbl">SETS</span>
-        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
-        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
-        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
-        <div class="set-box" onclick="toggleSet(this)"><span class="num">4</span><span class="chk">v</span></div>
-      </div>
-      <button class="rest-btn" onclick="startRest(this,90)">
-        <span class="rest-btn-label">START REST</span>
-        <span class="rest-btn-count">90s</span>
-      </button>
-    </div>
-    <div><span class="badge b-red">4 x 10-12</span><span class="badge b-gold">BW</span></div>
-  </div>
-
-  <div class="phase-label ph-post"><span class="title">POSTERIOR CHAIN</span><span class="budget">~5 min</span></div>
-
-  <div class="card post">
-    <div>
-      <div class="card-num">03</div>
-      <div class="card-name">Bird Dog</div>
-      <div class="card-detail"><strong>3 sets x 10 each side</strong><br>On all fours, extend opposite arm and leg. Hold 3 sec at full extension before returning. Hits the erectors and deep stabilisers hard when done right. <strong>Target: bodyweight - add a light-to-medium band (see below) once controlled bodyweight reps feel easy.</strong></div>
-      <div class="card-tip">Think reach long not lift high - length activates the erectors</div>
-      <div class="alt-box"><strong>Want more load?</strong>Loop a thin resistance band around the extended foot and the opposite hand - the band pulls back as you reach, adding resistance right at full extension where it counts</div>
-      <div class="set-tracker">
-        <span class="set-lbl">SETS</span>
-        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
-        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
-        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
-      </div>
-      <button class="rest-btn" onclick="startRest(this,90)">
-        <span class="rest-btn-label">START REST</span>
-        <span class="rest-btn-count">90s</span>
-      </button>
-    </div>
-    <div><span class="badge b-green">3 x 10/side</span><span class="badge b-green">BW</span></div>
   </div>
 
 </div>
