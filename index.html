@@ -2252,7 +2252,7 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
 var activeTimer = null;
 var ctx = null;
 var activeView = null;
-var TEST_MODE = false; // audio confirmed working across all exercises - normal 60s/90s timers restored
+var TEST_MODE = true; // TEMP: forcing 3s timers to retest intermittent chime
 
 function showView(id) {
   document.getElementById('home').classList.remove('active');
