@@ -990,9 +990,29 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
     <div><div class="machine-tag">MACHINE</div><span class="badge b-blue">3 x 12</span><span class="badge b-gold">300-400 lb</span></div>
   </div>
 
-  <div class="card machine">
+  <div class="card machine-finish">
     <div>
       <div class="card-num">05</div>
+      <div class="card-name">Calf Raise</div>
+      <div class="card-detail"><strong>3 sets x 15 reps</strong><br>Standing or seated calf raise machine. Full range - lower heel completely below the platform for a deep stretch, raise to full tiptoe. Calves respond well to high reps and full range. Slow 3 sec lower on every rep. <strong>Target: 150-220 lbs.</strong></div>
+      <div class="card-tip">Most people only do the top half of this movement - the stretch at the bottom is where the growth comes from</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,60)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">60s</span>
+      </button>
+    </div>
+    <div><div class="machine-tag">MACHINE</div><span class="badge b-purple">3 x 15</span><span class="badge b-gold">150-220 lb</span></div>
+  </div>
+
+  <div class="card machine">
+    <div>
+      <div class="card-num">06</div>
       <div class="card-name">Seated Leg Curl</div>
       <div class="card-detail"><strong>3 sets x 12 reps</strong><br>Adjust the back pad so your knees line up with the machine's pivot, and the ankle pad sits just above your heels. Curl the pad down and back under the seat with control, pause 1 sec at peak contraction, slow 3 second return. The slow eccentric here is critical - that is where the hamstring strengthening happens. <strong>Target: 70-100 lbs.</strong></div>
       <div class="card-tip">Thighs stay pressed flat into the seat pad - if they are lifting up you are using too much weight</div>
@@ -1014,7 +1034,7 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
 
   <div class="card machine-finish">
     <div>
-      <div class="card-num">06</div>
+      <div class="card-num">07</div>
       <div class="card-name">Leg Extension</div>
       <div class="card-detail"><strong>2 sets x 15 reps</strong><br>Pad resting on the lower shin. Extend to full lockout and hold 1 sec at the top, slow lower. Pure quad isolation - finishes the muscle after the compound work. Do not go heavy here, focus on the squeeze at the top. <strong>Target: 50-80 lbs.</strong></div>
       <div class="card-tip">Point toes slightly inward to bias the outer quad sweep - or toes out for inner quad</div>
@@ -1033,7 +1053,7 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
 
   <div class="card machine-finish">
     <div>
-      <div class="card-num">07</div>
+      <div class="card-num">08</div>
       <div class="card-name">Hip Abductor Machine</div>
       <div class="card-detail"><strong>2 sets x 15 reps</strong><br>Sit with pads on the outer thighs. Push knees apart against resistance, hold 1 sec at full abduction, slow return. Targets the glute medius directly - critical for knee stability and hip alignment. Do not slam the weight back in. <strong>Target: 80-120 lbs.</strong></div>
       <div class="card-tip">Sit upright, not leaning back - the lean shifts the work away from glute med onto TFL</div>
@@ -1048,26 +1068,6 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
       </button>
     </div>
     <div><div class="machine-tag">MACHINE</div><span class="badge b-purple">2 x 15</span><span class="badge b-gold">80-120 lb</span></div>
-  </div>
-
-  <div class="card machine-finish">
-    <div>
-      <div class="card-num">08</div>
-      <div class="card-name">Calf Raise</div>
-      <div class="card-detail"><strong>3 sets x 15 reps</strong><br>Standing or seated calf raise machine. Full range - lower heel completely below the platform for a deep stretch, raise to full tiptoe. Calves respond well to high reps and full range. Slow 3 sec lower on every rep. <strong>Target: 150-220 lbs.</strong></div>
-      <div class="card-tip">Most people only do the top half of this movement - the stretch at the bottom is where the growth comes from</div>
-      <div class="set-tracker">
-        <span class="set-lbl">SETS</span>
-        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
-        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
-        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
-      </div>
-      <button class="rest-btn" onclick="startRest(this,60)">
-        <span class="rest-btn-label">START REST</span>
-        <span class="rest-btn-count">60s</span>
-      </button>
-    </div>
-    <div><div class="machine-tag">MACHINE</div><span class="badge b-purple">3 x 15</span><span class="badge b-gold">150-220 lb</span></div>
   </div>
 
   <div class="notes">
@@ -1732,9 +1732,29 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
     <div><div class="machine-tag">MACHINE</div><span class="badge b-blue">3 x 12</span><span class="badge b-gold">300-400 lb</span></div>
   </div>
 
-  <div class="card machine">
+  <div class="card machine-finish">
     <div>
       <div class="card-num">05</div>
+      <div class="card-name">Calf Raise</div>
+      <div class="card-detail"><strong>3 sets x 15 reps</strong><br>Standing or seated calf raise machine. Full range - lower heel completely below the platform for a deep stretch, raise to full tiptoe. Calves respond well to high reps and full range. Slow 3 sec lower on every rep. <strong>Target: 150-220 lbs.</strong></div>
+      <div class="card-tip">Most people only do the top half of this movement - the stretch at the bottom is where the growth comes from</div>
+      <div class="set-tracker">
+        <span class="set-lbl">SETS</span>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
+        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
+      </div>
+      <button class="rest-btn" onclick="startRest(this,60)">
+        <span class="rest-btn-label">START REST</span>
+        <span class="rest-btn-count">60s</span>
+      </button>
+    </div>
+    <div><div class="machine-tag">MACHINE</div><span class="badge b-purple">3 x 15</span><span class="badge b-gold">150-220 lb</span></div>
+  </div>
+
+  <div class="card machine">
+    <div>
+      <div class="card-num">06</div>
       <div class="card-name">Seated Leg Curl</div>
       <div class="card-detail"><strong>3 sets x 12 reps</strong><br>Adjust the back pad so your knees line up with the machine's pivot, and the ankle pad sits just above your heels. Curl the pad down and back under the seat with control, pause 1 sec at peak contraction, slow 3 second return. The slow eccentric here is critical - that is where the hamstring strengthening happens. <strong>Target: 70-100 lbs.</strong></div>
       <div class="card-tip">Thighs stay pressed flat into the seat pad - if they are lifting up you are using too much weight</div>
@@ -1756,7 +1776,7 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
 
   <div class="card machine-finish">
     <div>
-      <div class="card-num">06</div>
+      <div class="card-num">07</div>
       <div class="card-name">Leg Extension</div>
       <div class="card-detail"><strong>2 sets x 15 reps</strong><br>Pad resting on the lower shin. Extend to full lockout and hold 1 sec at the top, slow lower. Pure quad isolation - finishes the muscle after the compound work. Do not go heavy here, focus on the squeeze at the top. <strong>Target: 50-80 lbs.</strong></div>
       <div class="card-tip">Point toes slightly inward to bias the outer quad sweep - or toes out for inner quad</div>
@@ -1775,7 +1795,7 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
 
   <div class="card machine-finish">
     <div>
-      <div class="card-num">07</div>
+      <div class="card-num">08</div>
       <div class="card-name">Hip Abductor Machine</div>
       <div class="card-detail"><strong>2 sets x 15 reps</strong><br>Sit with pads on the outer thighs. Push knees apart against resistance, hold 1 sec at full abduction, slow return. Targets the glute medius directly - critical for knee stability and hip alignment. Do not slam the weight back in. <strong>Target: 80-120 lbs.</strong></div>
       <div class="card-tip">Sit upright, not leaning back - the lean shifts the work away from glute med onto TFL</div>
@@ -1790,26 +1810,6 @@ body { background:var(--black); color:var(--chalk); font-family:'DM Sans',sans-s
       </button>
     </div>
     <div><div class="machine-tag">MACHINE</div><span class="badge b-purple">2 x 15</span><span class="badge b-gold">80-120 lb</span></div>
-  </div>
-
-  <div class="card machine-finish">
-    <div>
-      <div class="card-num">08</div>
-      <div class="card-name">Calf Raise</div>
-      <div class="card-detail"><strong>3 sets x 15 reps</strong><br>Standing or seated calf raise machine. Full range - lower heel completely below the platform for a deep stretch, raise to full tiptoe. Calves respond well to high reps and full range. Slow 3 sec lower on every rep. <strong>Target: 150-220 lbs.</strong></div>
-      <div class="card-tip">Most people only do the top half of this movement - the stretch at the bottom is where the growth comes from</div>
-      <div class="set-tracker">
-        <span class="set-lbl">SETS</span>
-        <div class="set-box" onclick="toggleSet(this)"><span class="num">1</span><span class="chk">v</span></div>
-        <div class="set-box" onclick="toggleSet(this)"><span class="num">2</span><span class="chk">v</span></div>
-        <div class="set-box" onclick="toggleSet(this)"><span class="num">3</span><span class="chk">v</span></div>
-      </div>
-      <button class="rest-btn" onclick="startRest(this,60)">
-        <span class="rest-btn-label">START REST</span>
-        <span class="rest-btn-count">60s</span>
-      </button>
-    </div>
-    <div><div class="machine-tag">MACHINE</div><span class="badge b-purple">3 x 15</span><span class="badge b-gold">150-220 lb</span></div>
   </div>
 
   <div class="notes">
